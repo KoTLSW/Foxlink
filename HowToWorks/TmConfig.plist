@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UerName</key>
+	<string>op</string>
+	<key>UserPassWords</key>
+	<string>op</string>
+	<key>SocketConfig</key>
+	<dict>
+		<key>Port</key>
+		<string>8888</string>
+		<key>IP</key>
+		<string>127.0.0.1</string>
+	</dict>
+	<key>ServerFC</key>
+	<dict>
+		<key>Server_IP</key>
+		<string>10.12.5.70</string>
+		<key>BDAServer_IP</key>
+		<string>10.12.5.70</string>
+		<key>Net_Port</key>
+		<string>80</string>
+		<key>C</key>
+		<string>ADD_RECORD</string>
+		<key>Station_Name</key>
+		<string>ZR-MLB-FCT1</string>
+		<key>Front_StationName</key>
+		<string>ZR-MLB-ICT</string>
+		<key>Next_StationName</key>
+		<string>ZR-BT-COND</string>
+		<key>Product</key>
+		<string>A211</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,7 @@
+dut_type=B312
+ui_title=B312_BT_MIC_SPK_V02
+sw_name=B312_BT_MIC_SPK
+sw_ver=V02
+fixture_port=FIXTUREB
+pcbuart_port=UART
+pcbspi_port=SPI
