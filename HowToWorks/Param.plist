@@ -39,9 +39,9 @@
 	<key>thdn</key>
 	<integer>5</integer>
 	<key>ui_title</key>
-	<string>software test</string>
+	<string>Uploading SFC&amp;PDCA</string>
 	<key>ui_versiom</key>
-	<string>V1.0.0.9</string>
+	<string>V1.0.0.0</string>
 	<key>station</key>
 	<string>1</string>
 	<key>stationID</key>

@@ -25,7 +25,7 @@
 #define kContextCsvPath             @"CsvLogPath"
 #define kContextTxtPath             @"TxtLogPath"
 
-
+#define kContextcheckIfRead         @"IfStartReadData"
 
 
 

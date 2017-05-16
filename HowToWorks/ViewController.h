@@ -18,8 +18,6 @@
 #import "TimeDate.h"
 #import "UserInformation.h"
 #import "Common.h"
-#import "Instrument.h"
-#import "KeithleyDevice.h"
 
 
 
@@ -44,10 +42,8 @@
     IBOutlet NSTextView  *ErrorIteam;     //显示所有NG的测试项名字
     //=====================Add by bill=================
     //------TOP----------
-    IBOutlet NSTextField *FlowMsg;          //流程信息提示(SFC PDCA等)
     IBOutlet NSTextField *TesterTitle;      //标题显示
     IBOutlet NSTextField *IndexMsg;         //错误信息
-    IBOutlet NSTextField *ProcessMsg;       //站别信息
     IBOutlet NSTextField *TesterVersion;    //软件版本信息
 
     //------BL----------
@@ -57,7 +53,6 @@
     IBOutlet NSTextField *TestModle;        //测试模式(A,AB,AAB,AAA)
 
     //------BM----------
-    IBOutlet NSButton    *btSelectUUT1;      //选择测试哪个UUT
     IBOutlet NSTextField *SN1Lable;          //显示当前测试产品的SN
     IBOutlet NSTextField *SN1;              //SN
     IBOutlet NSTextField *SB1;              //S_BUILD
@@ -67,7 +62,6 @@
     IBOutlet NSTextField *TestPassRate;     //测试PASS率
     IBOutlet NSTextField *TestFailRate;     //测试Fail率
     IBOutlet NSButton    *btCountReset;     //清除计数
-    IBOutlet NSProgressIndicator *Progreess;//测试进度条
     IBOutlet NSTextField *TestTime;         //测试时间
     //------BR----------
     IBOutlet NSTextField *Station;          //站别
@@ -79,11 +73,6 @@
     IBOutlet NSButton    *btPause;            //暂停
     IBOutlet NSButton    *btContinue;         //继续
     IBOutlet NSTextField *UserName;         //用户名
-    
-    __weak IBOutlet NSTextField *HumitureTF;
-    
-    __weak IBOutlet NSTextField *ResultBackGroundTF;//测试结果的背景颜色
-
 
 }
 +(id)GetObject;

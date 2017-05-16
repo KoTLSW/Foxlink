@@ -8,7 +8,7 @@
 
 #import "IASocket.h"
 #include "pthread.h"
-
+#include "TestContext.h"
 
 @implementation IASocket
 
@@ -194,6 +194,9 @@
     {
         NSLog(@"receive data,please add 'ReceiveDataCallback' function");
     }
+    //添加回调相关
+    CTestContext *ctestcontext = new CTestContext;
+    [ctestcontext->m_dicConfiguration setValue:@"OK" forKey:kContextcheckIfRead];
 }
 
 - (void)streamerror:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
