@@ -68,9 +68,9 @@ static TestStep* test=nil;
     //Write log file header
 //    [[LogFile Instance] WriteHeader:_strSN andTestTime:[GetTimeDay GetCurrentTime] andHeader:[configPlist ReadArray:CONFIG_LOG_HEADER]];
     //文件名字
-    NSString* strFileName=[NSString stringWithFormat:@"%@_%@.txt",_strSN,[_timeDate GetSystemTimeSeconds]];
+    //NSString* strFileName=[NSString stringWithFormat:@"%@_%@.txt",_strSN,[_timeDate GetSystemTimeSeconds]];
     //文件路径
-    NSString* strFilePath=[[configPlist ReadDictionary:CONFIG_FILE_PATH_NAME] objectForKey:CONFIG_TEST_LOG_PATH];
+    //NSString* strFilePath=[[configPlist ReadDictionary:CONFIG_FILE_PATH_NAME] objectForKey:CONFIG_TEST_LOG_PATH];
     //Write Test log file
     //[[TestLog Instance] SetFilePath:strFilePath  andFileName:strFileName];
     //设置pdca文件路2efb.pi;

@@ -72,6 +72,8 @@ NSString  *plist_path=@"TestItem";
     NSMutableString     *humitureAppendString;  //温度拼接字符
  
     NSMutableString     *DataFromWindows;   //从windows端发过来的数据
+    NSMutableString     *SFCBackString;     //SFC返回的字符串
+    
     BOOL                only_test;          //调试用的
     //--------pass和fail数量信息统计--------
     int testpasscount;
@@ -111,6 +113,9 @@ NSString  *plist_path=@"TestItem";
 {
     //用于存windows端发过来的数据
     DataFromWindows = [[NSMutableString alloc] init];
+    //SFC返回的字符串
+    SFCBackString = [[NSMutableString alloc] init];
+    
     dutsn1 = [[NSString alloc] init];         //产品sn1
     dutsn2 = [[NSString alloc] init];         //产品sn2
     dutsn3 = [[NSString alloc] init];         //产品sn3
@@ -461,7 +466,7 @@ NSString  *plist_path=@"TestItem";
 //                    //收到数据
 //NSString *PDCAData = @"PDCA(类型):1234567(条码),1(第几个产品),0.1(数值1),0.21(数值2),0.11(数值3),0.15(数值4),8.2(数值5):#";  //OK
 //                    NSString *PDCADataNULL = @"PDCA:1234567,1,NULL,NULL,NULL,NULL,NULL:#";    //NG
-
+//PDCA:NULL,1,-1,-1,-1,-1,-1:NULL,2,-1,-1,-1,-1,-1:NULL,3,-1,-1,-1,-1,-1:NULL,4,-1,-1,-1,-1,-1:#
 -(void)Action
 {
     @autoreleasepool
@@ -477,7 +482,7 @@ NSString  *plist_path=@"TestItem";
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:0,与windows端创建连接"]];
                 }
-                sleep(1);
+                sleep(0.1);
                 PACSocketConnectflag = PACSocket->CreateTCPClient([[NSString stringWithFormat:@"Macmini"] UTF8String], [param.IP_MacWin UTF8String], [param.Port_MacWin intValue]);
                 if (PACSocketConnectflag)
                 {
@@ -497,7 +502,7 @@ NSString  *plist_path=@"TestItem";
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:1,读取数据"]];
                 }
-                sleep(1);
+                sleep(0.1);
                 NSString *str = [NSString stringWithUTF8String:PACSocket->TCPReadString()];
                 if ([str length]>0)
                 {
@@ -528,7 +533,7 @@ NSString  *plist_path=@"TestItem";
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:2,处理数据"]];
                 }
-                sleep(1);
+                sleep(0.1);
                 NSArray *flowArray = [DataFromWindows componentsSeparatedByString:@":"];
                 NSString *flowStr = flowArray[0];
 //处理SN
@@ -626,26 +631,31 @@ NSString  *plist_path=@"TestItem";
                     {
                         uploadingSFC.strSN =dutsn1;
                         BOOL IfSFCOK = [uploadingSFC StepSFC_CheckUploadSN:YES];
+                        NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
+                        [SFCBackString appendString:[NSString stringWithFormat:@"SFC:%@",dutsn1]];
                         if (IfSFCOK)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [SFC1 setStringValue:@"SFC_OK"];
+                                [SFC1 setStringValue:SFCErreTypeStr];
                                 [SFC1 setBackgroundColor:[NSColor greenColor]];
                             });
-                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
+                            [SFCBackString appendString:@",OK"];
+//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
+//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
-                            NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
+
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [SFC1 setStringValue:SFCErreTypeStr];
                                 [SFC1 setBackgroundColor:[NSColor redColor]];
                             });
-                            //处理SFC
-                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
+                            [SFCBackString appendString:@",NG"];
+//                            //处理SFC
+//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
+//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
+                        [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
 
                     //UUT2
@@ -661,26 +671,30 @@ NSString  *plist_path=@"TestItem";
                     {
                         uploadingSFC.strSN =dutsn2;
                         BOOL IfSFCOK = [uploadingSFC StepSFC_CheckUploadSN:YES];
+                        NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
+                        [SFCBackString appendString:dutsn2];
                         if (IfSFCOK)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [SFC2 setStringValue:@"SFC_OK"];
+                                [SFC2 setStringValue:SFCErreTypeStr];
                                 [SFC2 setBackgroundColor:[NSColor greenColor]];
                             });
-                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
+                            [SFCBackString appendString:@",OK"];
+//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
+//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
-                            NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [SFC2 setStringValue:SFCErreTypeStr];
                                 [SFC2 setBackgroundColor:[NSColor redColor]];
                             });
-                            //处理SFC
-                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
+                            [SFCBackString appendString:@",NG"];
+//                            //处理SFC
+//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
+//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
+                        [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
                     //UUT3
                     if ([dutsn3 isEqualToString:@"NULL"])
@@ -695,26 +709,30 @@ NSString  *plist_path=@"TestItem";
                     {
                         uploadingSFC.strSN =dutsn3;
                         BOOL IfSFCOK = [uploadingSFC StepSFC_CheckUploadSN:YES];
+                        NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
+                        [SFCBackString appendString:dutsn3];
                         if (IfSFCOK)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [SFC3 setStringValue:@"SFC_OK"];
+                                [SFC3 setStringValue:SFCErreTypeStr];
                                 [SFC3 setBackgroundColor:[NSColor greenColor]];
                             });
-                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
+                            [SFCBackString appendString:@",OK"];
+//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
+//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
-                            NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [SFC3 setStringValue:SFCErreTypeStr];
                                 [SFC3 setBackgroundColor:[NSColor redColor]];
                             });
-                            //处理SFC
-                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
+                            [SFCBackString appendString:@",NG"];
+//                            //处理SFC
+//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
+//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
+                        [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
                     
                     //UUT4
@@ -730,207 +748,58 @@ NSString  *plist_path=@"TestItem";
                     {
                         uploadingSFC.strSN =dutsn4;
                         BOOL IfSFCOK = [uploadingSFC StepSFC_CheckUploadSN:YES];
+                        NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
+                        [SFCBackString appendString:dutsn4];
                         if (IfSFCOK)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [SFC4 setStringValue:@"SFC_OK"];
                                 [SFC4 setBackgroundColor:[NSColor greenColor]];
                             });
-                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
+                            [SFCBackString appendString:@",OK"];
+//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
+//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
-                            NSString *SFCErreTypeStr = [self ReturnSFCErrorTypeStr];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [SFC4 setStringValue:SFCErreTypeStr];
                                 [SFC4 setBackgroundColor:[NSColor redColor]];
                             });
-                            //处理SFC
-                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
+                            [SFCBackString appendString:@",NG"];
+//                            //处理SFC
+//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
+//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
+                        [SFCBackString appendString:[NSString stringWithFormat:@",%@:#",SFCErreTypeStr]];
                     }
+                    //回复SFC请求的结果
+                    NSLog(@"SFC回复的数据: %@",SFCBackString);
+                    PACSocket->TCPSendString((char*)[SFCBackString UTF8String]);
                     
                 }
-//上传PDCA和SFC的结果
+//上传PDCA和SFC的结果     PDCA:NULL,1,-1,-1,-1,-1,-1:NULL,2,-1,-1,-1,-1,-1:NULL,3,-1,-1,-1,-1,-1:NULL,4,-1,-1,-1,-1,-1:#
                 else if ([flowStr isEqualToString:@"PDCA"])
                 {
                     //处理PDCA
-                    if ([flowArray count]==3)
+                    if ([flowArray count]==6)
                     {
-                        //处理PDCA
-                        if([flowArray[1] length]>0)
-                        {
-                            //再次分割字符串
-                            NSMutableString *snStr = [[NSMutableString alloc] init];
-                            [snStr appendString:flowArray[1]];
-                            NSArray *snArray = [snStr componentsSeparatedByString:@","];
-                            if ([snArray count]==7)
-                            {
-                                if ([snArray[0] isEqualToString:@"NULL"])
-                                {
-                                    NSLog(@"获取SN:NULL,不上传PDCA");
-                                    //刷新界面
-                                    if ([snArray[1] isEqualToString:@"1"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA1 setStringValue:@"NULL"];
-                                            [PDCA1 setBackgroundColor:[NSColor blueColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"2"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA2 setStringValue:@"NULL"];
-                                            [PDCA2 setBackgroundColor:[NSColor blueColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"3"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA3 setStringValue:@"NULL"];
-                                            [PDCA3 setBackgroundColor:[NSColor blueColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"4"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA4 setStringValue:@"NULL"];
-                                            [PDCA4 setBackgroundColor:[NSColor blueColor]];
-                                        });
-                                    }
-                                }
-                                else
-                                {
-                                    //判断产品是否Pass
-                                    BOOL Gap1PassOrFail = ([snArray[2] floatValue]>[param.Gap1LowerLimit floatValue])&&([snArray[2] floatValue]<[param.Gap1UpperLimit floatValue])?YES:NO;
-                                    BOOL Gap2PassOrFail = ([snArray[3] floatValue]>[param.Gap2LowerLimit floatValue])&&([snArray[3] floatValue]<[param.Gap2UpperLimit floatValue])?YES:NO;
-                                    BOOL Gap3PassOrFail = ([snArray[4] floatValue]>[param.Gap3LowerLimit floatValue])&&([snArray[4] floatValue]<[param.Gap3UpperLimit floatValue])?YES:NO;
-                                    BOOL Gap4PassOrFail = ([snArray[5] floatValue]>[param.Gap4LowerLimit floatValue])&&([snArray[5] floatValue]<[param.Gap4UpperLimit floatValue])?YES:NO;
-                                    BOOL OHMPassOrFail = ([snArray[6] floatValue]>[param.OHMLowerLimit floatValue])&&([snArray[6] floatValue]<[param.OHMUpperLimit floatValue])?YES:NO;
-                                    BOOL PF = Gap1PassOrFail&&Gap2PassOrFail&&Gap3PassOrFail&&Gap4PassOrFail&&OHMPassOrFail?YES:NO;
-                                    
-                                    NSMutableString *SFCErrorMsg = [[NSMutableString alloc] init];
-                                    //添加SFC上传的相关信息
-                                    uploadingSFC.strSN =snArray[0];
-                                    if (!Gap1PassOrFail)
-                                    {
-                                        [SFCErrorMsg appendString:@"Gap1 Fail"];
-                                    }
-                                    if (!Gap2PassOrFail)
-                                    {
-                                        [SFCErrorMsg appendString:@",Gap2 Fail"];
-                                    }
-                                    if (!Gap3PassOrFail)
-                                    {
-                                        [SFCErrorMsg appendString:@",Gap3 Fail"];
-                                    }
-                                    if (!Gap4PassOrFail)
-                                    {
-                                        [SFCErrorMsg appendString:@",Gap4 Fail"];
-                                    }
-                                    if (!OHMPassOrFail)
-                                    {
-                                        [SFCErrorMsg appendString:@",OHM Fail"];
-                                    }
-                                    if (PF)
-                                    {
-                                        
-                                        [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:YES andFailMessage:nil];
-                                    }
-                                    else
-                                    {
-                                        [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:NO andFailMessage:SFCErrorMsg];
-                                    }
-
-                                    //处理PDCA的相关信息
-                                    [pdca PDCA_GetStartTime];
-                                    [pdca PDCA_Init:snArray[0] SW_name:param.sw_name SW_ver:param.sw_ver];
-                                    
-                                    [pdca PDCA_UploadValue:@"Gap1"
-                                                     Lower:param.Gap1LowerLimit
-                                                     Upper:param.Gap1UpperLimit
-                                                      Unit:param.Gap1Unit
-                                                     Value:snArray[2]
-                                                 Pass_Fail:Gap1PassOrFail
-                                     ];
-                                    [pdca PDCA_UploadValue:@"Gap2"
-                                                     Lower:param.Gap2LowerLimit
-                                                     Upper:param.Gap2UpperLimit
-                                                      Unit:param.Gap2Unit
-                                                     Value:snArray[3]
-                                                 Pass_Fail:Gap2PassOrFail
-                                     ];
-                                    [pdca PDCA_UploadValue:@"Gap3"
-                                                     Lower:param.Gap3LowerLimit
-                                                     Upper:param.Gap3UpperLimit
-                                                      Unit:param.Gap3Unit
-                                                     Value:snArray[4]
-                                                 Pass_Fail:Gap3PassOrFail
-                                     ];
-                                    [pdca PDCA_UploadValue:@"Gap4"
-                                                     Lower:param.Gap4LowerLimit
-                                                     Upper:param.Gap4UpperLimit
-                                                      Unit:param.Gap4Unit
-                                                     Value:snArray[5]
-                                                 Pass_Fail:Gap4PassOrFail
-                                     ];
-                                    [pdca PDCA_UploadValue:@"OHM"
-                                                     Lower:param.OHMLowerLimit
-                                                     Upper:param.OHMUpperLimit
-                                                      Unit:param.OHMUnit
-                                                     Value:snArray[6]
-                                                 Pass_Fail:OHMPassOrFail
-                                     ];
-                                    [pdca PDCA_GetEndTime];
-                                    [pdca PDCA_Upload:PF];     //上传汇总结果
-                                    //刷新界面
-                                    if ([snArray[1] isEqualToString:@"1"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA1 setStringValue:@"upload ok"];
-                                            [PDCA1 setBackgroundColor:[NSColor greenColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"2"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA2 setStringValue:@"upload ok"];
-                                            [PDCA2 setBackgroundColor:[NSColor greenColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"3"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA3 setStringValue:@"upload ok"];
-                                            [PDCA3 setBackgroundColor:[NSColor greenColor]];
-                                        });
-                                    }
-                                    else if ([snArray[1] isEqualToString:@"4"])
-                                    {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [PDCA4 setStringValue:@"upload ok"];
-                                            [PDCA4 setBackgroundColor:[NSColor greenColor]];
-                                        });
-                                    }
-                                    
-                                }
-                            }
-                            else
-                            {
-                                NSLog(@"指令格式错误!!!");
-                            }
-                        }
+                        [self UploadSFC_PDCAData:flowArray[1]];
+                        [self UploadSFC_PDCAData:flowArray[2]];
+                        [self UploadSFC_PDCAData:flowArray[3]];
+                        [self UploadSFC_PDCAData:flowArray[4]];
+                        //处理SN
+                        NSString *RetSN = @"PDCA:OK:#";
+                        PACSocket->TCPSendString((char*)[RetSN UTF8String]);
                     }
                     else
                     {
                         NSLog(@"指令格式错误");
+                        //处理SN
+                        NSString *RetSN = @"SN:cmd error:#";
+                        PACSocket->TCPSendString((char*)[RetSN UTF8String]);
                     }
                     
-                    //处理PDCA
-                    NSString *PDCAData = @"PDCA:1234567,OK:#";  //OK
-                    PACSocket->TCPSendString((char*)[PDCAData UTF8String]);
                 }
                 index = 3;
             }
@@ -941,14 +810,14 @@ NSString  *plist_path=@"TestItem";
                 {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:3,清除buffer"]];
                 }
-                sleep(1);
+                sleep(0.1);
                 [DataFromWindows setString:@""];
-                dutsn1 = @"";
-                dutsn2 = @"";
-                dutsn3 = @"";
-                dutsn4 = @"";
+                [SFCBackString setString:@""];
+//                dutsn1 = @"";
+//                dutsn2 = @"";
+//                dutsn3 = @"";
+//                dutsn4 = @"";
                 index = 1;
-                
                 
                 //清空log显示
                 if ([[LOGVIEW1 string] length]>10000)
@@ -968,6 +837,180 @@ NSString  *plist_path=@"TestItem";
         
     }
 }
+
+-(void)UploadSFC_PDCAData:(NSString*)data
+{
+    //处理PDCA
+    if(data.length>0)
+    {
+        //再次分割字符串
+        //UUT1
+        NSMutableString *snStr = [[NSMutableString alloc] init];
+        [snStr appendString:data];
+        NSArray *snArray = [snStr componentsSeparatedByString:@","];
+        
+        if ([snArray count]==7)
+        {
+            if ([snArray[0] isEqualToString:@"NULL"])
+            {
+                NSLog(@"获取SN:NULL,不上传PDCA");
+                //刷新界面
+                if ([snArray[1] isEqualToString:@"1"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA1 setStringValue:@"NULL"];
+                        [PDCA1 setBackgroundColor:[NSColor blueColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"2"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA2 setStringValue:@"NULL"];
+                        [PDCA2 setBackgroundColor:[NSColor blueColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"3"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA3 setStringValue:@"NULL"];
+                        [PDCA3 setBackgroundColor:[NSColor blueColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"4"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA4 setStringValue:@"NULL"];
+                        [PDCA4 setBackgroundColor:[NSColor blueColor]];
+                    });
+                }
+            }
+            else
+            {
+                //判断产品是否Pass
+                BOOL Gap1PassOrFail = ([snArray[2] floatValue]>[param.Gap1LowerLimit floatValue])&&([snArray[2] floatValue]<[param.Gap1UpperLimit floatValue])?YES:NO;
+                BOOL Gap2PassOrFail = ([snArray[3] floatValue]>[param.Gap2LowerLimit floatValue])&&([snArray[3] floatValue]<[param.Gap2UpperLimit floatValue])?YES:NO;
+                BOOL Gap3PassOrFail = ([snArray[4] floatValue]>[param.Gap3LowerLimit floatValue])&&([snArray[4] floatValue]<[param.Gap3UpperLimit floatValue])?YES:NO;
+                BOOL Gap4PassOrFail = ([snArray[5] floatValue]>[param.Gap4LowerLimit floatValue])&&([snArray[5] floatValue]<[param.Gap4UpperLimit floatValue])?YES:NO;
+                BOOL OHMPassOrFail = ([snArray[6] floatValue]>[param.OHMLowerLimit floatValue])&&([snArray[6] floatValue]<[param.OHMUpperLimit floatValue])?YES:NO;
+                BOOL PF = Gap1PassOrFail&&Gap2PassOrFail&&Gap3PassOrFail&&Gap4PassOrFail&&OHMPassOrFail?YES:NO;
+                
+                NSMutableString *SFCErrorMsg = [[NSMutableString alloc] init];
+                //添加SFC上传的相关信息
+                uploadingSFC.strSN =snArray[0];
+                if (!Gap1PassOrFail)
+                {
+                    [SFCErrorMsg appendString:@"Gap1 Fail"];
+                }
+                if (!Gap2PassOrFail)
+                {
+                    [SFCErrorMsg appendString:@",Gap2 Fail"];
+                }
+                if (!Gap3PassOrFail)
+                {
+                    [SFCErrorMsg appendString:@",Gap3 Fail"];
+                }
+                if (!Gap4PassOrFail)
+                {
+                    [SFCErrorMsg appendString:@",Gap4 Fail"];
+                }
+                if (!OHMPassOrFail)
+                {
+                    [SFCErrorMsg appendString:@",OHM Fail"];
+                }
+                if (PF)
+                {
+                    
+                    [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:YES andFailMessage:nil];
+                }
+                else
+                {
+                    [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:NO andFailMessage:SFCErrorMsg];
+                }
+                
+                //处理PDCA的相关信息
+                [pdca PDCA_GetStartTime];
+                [pdca PDCA_Init:snArray[0] SW_name:param.sw_name SW_ver:param.sw_ver];
+                
+                [pdca PDCA_UploadValue:@"Gap1"
+                                 Lower:param.Gap1LowerLimit
+                                 Upper:param.Gap1UpperLimit
+                                  Unit:param.Gap1Unit
+                                 Value:snArray[2]
+                             Pass_Fail:Gap1PassOrFail
+                 ];
+                [pdca PDCA_UploadValue:@"Gap2"
+                                 Lower:param.Gap2LowerLimit
+                                 Upper:param.Gap2UpperLimit
+                                  Unit:param.Gap2Unit
+                                 Value:snArray[3]
+                             Pass_Fail:Gap2PassOrFail
+                 ];
+                [pdca PDCA_UploadValue:@"Gap3"
+                                 Lower:param.Gap3LowerLimit
+                                 Upper:param.Gap3UpperLimit
+                                  Unit:param.Gap3Unit
+                                 Value:snArray[4]
+                             Pass_Fail:Gap3PassOrFail
+                 ];
+                [pdca PDCA_UploadValue:@"Gap4"
+                                 Lower:param.Gap4LowerLimit
+                                 Upper:param.Gap4UpperLimit
+                                  Unit:param.Gap4Unit
+                                 Value:snArray[5]
+                             Pass_Fail:Gap4PassOrFail
+                 ];
+                [pdca PDCA_UploadValue:@"OHM"
+                                 Lower:param.OHMLowerLimit
+                                 Upper:param.OHMUpperLimit
+                                  Unit:param.OHMUnit
+                                 Value:snArray[6]
+                             Pass_Fail:OHMPassOrFail
+                 ];
+                [pdca PDCA_GetEndTime];
+                [pdca PDCA_Upload:PF];     //上传汇总结果
+                //刷新界面
+                if ([snArray[1] isEqualToString:@"1"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA1 setStringValue:@"upload ok"];
+                        [PDCA1 setBackgroundColor:[NSColor greenColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"2"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA2 setStringValue:@"upload ok"];
+                        [PDCA2 setBackgroundColor:[NSColor greenColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"3"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA3 setStringValue:@"upload ok"];
+                        [PDCA3 setBackgroundColor:[NSColor greenColor]];
+                    });
+                }
+                else if ([snArray[1] isEqualToString:@"4"])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [PDCA4 setStringValue:@"upload ok"];
+                        [PDCA4 setBackgroundColor:[NSColor greenColor]];
+                    });
+                }
+                
+            }
+        }
+        else
+        {
+            NSLog(@"指令格式错误!!!");
+            //处理SN
+            NSString *RetSN = @"SN:cmd error:#";
+            PACSocket->TCPSendString((char*)[RetSN UTF8String]);
+        }
+    }
+
+}
+
 
 -(NSString *)ReturnSFCErrorTypeStr
 {

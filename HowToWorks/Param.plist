@@ -17,7 +17,7 @@
 	<key>ui_title</key>
 	<string>Uploading SFC&amp;PDCA</string>
 	<key>ui_versiom</key>
-	<string>V1.0.0.0</string>
+	<string>V1.0.0.1</string>
 	<key>station</key>
 	<string>1</string>
 	<key>stationID</key>
@@ -61,8 +61,8 @@
 	<key>OHMUnit</key>
 	<string>OHM</string>
 	<key>IP_MacWin</key>
-	<string>127.0.0.1</string>
+	<string>192.168.4.105</string>
 	<key>Port_MacWin</key>
-	<string>5025</string>
+	<string>5000</string>
 </dict>
 </plist>
