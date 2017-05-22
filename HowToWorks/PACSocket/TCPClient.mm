@@ -215,7 +215,9 @@
 }
 - (BOOL)getConnectState;
 {
-    return m_ConnState;
+//    return m_ConnState;
+    BOOL isconnected = [m_ClientSock isConnected];
+    return isconnected;
 }
 
 - (NSData*)getStubData;

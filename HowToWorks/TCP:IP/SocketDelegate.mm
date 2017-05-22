@@ -299,6 +299,30 @@ SocketDelegate* parmsocketboardWindowDelegate = nil ;
         [socketServerPort setEnabled:NO];
         [socketConnectionName setEnabled:NO];
         [self PrintLog:@"ArmSocket Connected To Server\r\n" TextView:socketLog];
+        //启动重新连接
+        dispatch_async(dispatch_get_main_queue(), ^{
+            while (true)
+            {
+                [socketConnectionName setStringValue:@"Bill"];
+                [socketServerIP setStringValue:@"127.0.0.1"];
+                [socketServerPort setStringValue:@"5025"];
+                //[statusPic SetButtonColor:NO];
+                //[ConnectToPresentServer setTitle:@"Connect"];
+                
+               BOOL ifconnect = [socketClient connectSocket:[socketServerIP stringValue] Port:[socketServerPort intValue] timeOut:5];
+                [socketClient setDelegate:self];
+                if (ifconnect)
+                {
+                    break;
+                }
+                else
+                {
+                    [NSThread sleepForTimeInterval:2];
+                }
+            }
+             
+             
+         });
     }
     else
     {
@@ -309,6 +333,8 @@ SocketDelegate* parmsocketboardWindowDelegate = nil ;
         [socketConnectionName setEnabled:YES];
         [self PrintLog:@"ArmSocket Connected To Server Fail\r\n" TextView:socketLog];
     }
+    
+    
 }
 
 - (void)SendData:(NSString *)SendData

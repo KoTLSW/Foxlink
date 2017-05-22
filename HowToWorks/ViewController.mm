@@ -480,13 +480,22 @@ NSString  *plist_path=@"TestItem";
             {
                 if (![[IndexMsg stringValue]isEqualToString:@"Index:0,与windows端创建连接"])
                 {
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         [IndexMsg setBackgroundColor:[NSColor redColor]];
+                     });
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:0,与windows端创建连接"]];
                 }
                 sleep(0.1);
+                ct_cnt = 0;
+                [self StartTimer:0.5];
                 PACSocketConnectflag = PACSocket->CreateTCPClient([[NSString stringWithFormat:@"Macmini"] UTF8String], [param.IP_MacWin UTF8String], [param.Port_MacWin intValue]);
+                
                 if (PACSocketConnectflag)
                 {
                     NSLog(@"网络连接成功!!!!!");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [IndexMsg setBackgroundColor:[NSColor greenColor]];
+                    });
                     index=1;
                 }
                 else
@@ -503,6 +512,7 @@ NSString  *plist_path=@"TestItem";
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowErrorTipOnUI object:[NSString stringWithFormat:@"Index:1,读取数据"]];
                 }
                 sleep(0.1);
+                
                 NSString *str = [NSString stringWithUTF8String:PACSocket->TCPReadString()];
                 if ([str length]>0)
                 {
@@ -640,8 +650,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC1 setBackgroundColor:[NSColor greenColor]];
                             });
                             [SFCBackString appendString:@",OK"];
-//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
@@ -651,9 +659,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC1 setBackgroundColor:[NSColor redColor]];
                             });
                             [SFCBackString appendString:@",NG"];
-//                            //处理SFC
-//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
                         [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
@@ -680,8 +685,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC2 setBackgroundColor:[NSColor greenColor]];
                             });
                             [SFCBackString appendString:@",OK"];
-//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
@@ -690,9 +693,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC2 setBackgroundColor:[NSColor redColor]];
                             });
                             [SFCBackString appendString:@",NG"];
-//                            //处理SFC
-//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
                         [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
@@ -718,8 +718,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC3 setBackgroundColor:[NSColor greenColor]];
                             });
                             [SFCBackString appendString:@",OK"];
-//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
@@ -728,9 +726,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC3 setBackgroundColor:[NSColor redColor]];
                             });
                             [SFCBackString appendString:@",NG"];
-//                            //处理SFC
-//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
                         [SFCBackString appendString:[NSString stringWithFormat:@",%@:",SFCErreTypeStr]];
                     }
@@ -757,8 +752,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC4 setBackgroundColor:[NSColor greenColor]];
                             });
                             [SFCBackString appendString:@",OK"];
-//                            NSString *RetSFCQOK = @"SFC:SN,OK,errcode:NULL:#";  //OK
-//                            PACSocket->TCPSendString((char*)[RetSFCQOK UTF8String]);
                         }
                         else
                         {
@@ -767,9 +760,6 @@ NSString  *plist_path=@"TestItem";
                                 [SFC4 setBackgroundColor:[NSColor redColor]];
                             });
                             [SFCBackString appendString:@",NG"];
-//                            //处理SFC
-//                            NSString *RetSFCQNG = [NSString stringWithFormat:@"SFC:SN,NG,errcode:%@:#",SFCErreTypeStr];//NG
-//                            PACSocket->TCPSendString((char*)[RetSFCQNG UTF8String]);
                         }
                         [SFCBackString appendString:[NSString stringWithFormat:@",%@:#",SFCErreTypeStr]];
                     }
@@ -1026,7 +1016,7 @@ NSString  *plist_path=@"TestItem";
             break;
         case SFC_SN_Error:_strErrorMessage=@"SN错误,此类错误是由于前面站还没测引起的";
             break;
-        case SFC_ErrorNet:_strErrorMessage=@"网络链接错误";
+        case SFC_ErrorNet:_strErrorMessage=@"ErrorNet";
             break;
         case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
             break;
@@ -1260,7 +1250,13 @@ NSString  *plist_path=@"TestItem";
     NSString *strtime=[[NSString alloc]initWithFormat:@"%0.1f",ct_cnt*0.1];
     
     [TestTime setStringValue:[NSString stringWithFormat:@"%@  s",strtime]];
-
+    
+    BOOL ifconnect = PACSocket->getConnectState();
+    if (!ifconnect)
+    {
+        index = 0;
+    }
+    
 }
 
 
