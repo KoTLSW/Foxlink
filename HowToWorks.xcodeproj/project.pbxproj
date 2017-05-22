@@ -1010,6 +1010,7 @@
 					"$(PROJECT_DIR)/HowToWorks/PDCA",
 					"$(PROJECT_DIR)/HowToWorks/FTDI",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = bill.HowToWorks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1032,6 +1033,7 @@
 					"$(PROJECT_DIR)/HowToWorks/PDCA",
 					"$(PROJECT_DIR)/HowToWorks/FTDI",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = bill.HowToWorks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
