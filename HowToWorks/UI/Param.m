@@ -22,57 +22,35 @@
     NSString* _sw_name;
     NSString* _sw_ver;
     
-    NSString* _fixture_uart_port_name;
-    NSInteger _fixture_uart_baud;
-    
-    NSString* _humiture_uart_port_name;
-    NSInteger _humiture_uart_baud;
-    
-    
-    NSString* _pcb_uart_port_name;
-    NSInteger _pcb_uart_baud;
-    
-    NSString* _pcb_spi_port_name;
-    NSInteger _pcb_spi_baud;
-    
     NSString* _fixture_id;
     
     NSString* _file_path;
     
-    NSInteger _thdn;
+    NSString* _Gap1UpperLimit;
+    NSString* _Gap1LowerLimit;
+    NSString* _Gap1Unit;
     
-    NSInteger _spkvol;
-    NSInteger _spkcale;
+    NSString* _Gap2UpperLimit;
+    NSString* _Gap2LowerLimit;
+    NSString* _Gap2Unit;
     
-    NSInteger _out_rate;
-    NSInteger _in_rate;
+    NSString* _Gap3UpperLimit;
+    NSString* _Gap3LowerLimit;
+    NSString* _Gap3Unit;
     
-    NSString* _micl_calibration_time;
-    CGFloat   _micl_calibration_db;
-    CGFloat   _micl_calibration_v_pa;
+    NSString* _Gap4UpperLimit;
+    NSString* _Gap4LowerLimit;
+    NSString* _Gap4Unit;
     
-    NSString*  _micr_calibration_time;
-    CGFloat   _micr_calibration_db;
-    CGFloat   _micr_calibration_v_pa;
+    NSString* _OHMUpperLimit;
+    NSString* _OHMLowerLimit;
+    NSString* _OHMUnit;
     
-    NSString* _mics_calibration_time;
-    CGFloat   _mics_calibration_db;
-    CGFloat   _mics_calibration_v_pa;
-    
-    NSString* _spk_calibration_time;
-    CGFloat   _spk_calibration_db1;
-    CGFloat   _spk_calibration_db1_v;
-    CGFloat   _spk_calibration_db2;
-    CGFloat   _spk_calibration_db2_v;
+    NSString* _IP_MacWin;
+    NSString* _Port_MacWin;
     
     BOOL      _pdca_is_upload;
-    
-    //波形发生器类
-    BOOL      _isWaveNeed;
-    NSString * _s_build;
-    NSString * _waveOffset;
-    NSString * _waveFrequence;
-    NSString * _waveVolt;
+
 }
 @end
 //=============================================
@@ -89,46 +67,34 @@
 @synthesize lineNo                 =_lineNo;
 @synthesize sw_name                = _sw_name;
 @synthesize sw_ver                 = _sw_ver;
-@synthesize fixture_uart_port_name = _fixture_uart_port_name;
-@synthesize fixture_uart_baud      = _fixture_uart_baud;
-@synthesize humiture_uart_port_name = humiture_uart_port_name;
-@synthesize humiture_uart_baud      = _humiture_uart_baud;
-@synthesize pcb_uart_port_name     = _pcb_uart_port_name;
-@synthesize pcb_uart_baud          = _pcb_uart_baud;
-@synthesize pcb_spi_port_name      = _pcb_spi_port_name;
-@synthesize pcb_spi_baud           = _pcb_spi_baud;
 @synthesize fixture_id             = _fixture_id;
 @synthesize file_path              = _file_path;
-@synthesize isWaveNeed             = _isWaveNeed;
 @synthesize s_build                = _s_build;
-@synthesize waveVolt               = _waveVolt;
-@synthesize waveOffset             = _waveOffset;
-@synthesize waveFrequence          = _waveFrequence;
-
-
-
-
-
-@synthesize thdn                   = _thdn;
-@synthesize spkvol                 = _spkvol;
-@synthesize spkscale               = _spkscale;
-@synthesize out_rate               = _out_rate;
-@synthesize in_rate                = _in_rate;
-@synthesize micl_calibration_time  = _micl_calibration_time;
-@synthesize micl_calibration_db    = _micl_calibration_db;
-@synthesize micl_calibration_v_pa  = _micl_calibration_v_pa;
-@synthesize micr_calibration_time  = _micr_calibration_time;
-@synthesize micr_calibration_db    = _micr_calibration_db;
-@synthesize micr_calibration_v_pa  = _micr_calibration_v_pa;
-@synthesize mics_calibration_time  = _mics_calibration_time;
-@synthesize mics_calibration_db    = _mics_calibration_db;
-@synthesize mics_calibration_v_pa  = _mics_calibration_v_pa;
-@synthesize spk_calibration_time   = _spk_calibration_time;
-@synthesize spk_calibration_db1    = _spk_calibration_db1;
-@synthesize spk_calibration_db1_v  = _spk_calibration_db1_v;
-@synthesize spk_calibration_db2    = _spk_calibration_db2;
-@synthesize spk_calibration_db2_v  = _spk_calibration_db2_v;
 @synthesize pdca_is_upload         = _pdca_is_upload;
+
+
+@synthesize Gap1UpperLimit         =_Gap1UpperLimit;
+@synthesize Gap1LowerLimit         =_Gap1LowerLimit;
+@synthesize Gap1Unit               =_Gap1Unit;
+
+@synthesize Gap2UpperLimit         =_Gap2UpperLimit;
+@synthesize Gap2LowerLimit         =_Gap2LowerLimit;
+@synthesize Gap2Unit               =_Gap2Unit;
+
+@synthesize Gap3UpperLimit         =_Gap3UpperLimit;
+@synthesize Gap3LowerLimit         =_Gap3LowerLimit;
+@synthesize Gap3Unit               =_Gap3Unit;
+
+@synthesize Gap4UpperLimit         =_Gap4UpperLimit;
+@synthesize Gap4LowerLimit         =_Gap4LowerLimit;
+@synthesize Gap4Unit               =_Gap4Unit;
+
+@synthesize OHMUpperLimit         =_OHMUpperLimit;
+@synthesize OHMLowerLimit         =_OHMLowerLimit;
+@synthesize OHMUnit               =_OHMUnit;
+
+@synthesize IP_MacWin             =_IP_MacWin;
+@synthesize Port_MacWin           =_Port_MacWin;
 //=============================================
 - (void)ParamRead:(NSString*)filename
 {
@@ -153,54 +119,39 @@
     self.sw_name                = [dictionary objectForKey:@"sw_name"];
     self.sw_ver                 = [dictionary objectForKey:@"sw_ver"];
     
-    self.fixture_uart_port_name = [dictionary objectForKey:@"fixture_uart_port_name"];
-    self.fixture_uart_baud      = [[dictionary objectForKey:@"fixture_uart_baud"]integerValue];
-    
-    //温湿度传感器
-    self.humiture_uart_port_name=[dictionary objectForKey:@"humiture_uart_port_name"];
-    self.humiture_uart_baud     =[[dictionary objectForKey:@"humiture__uart_baud"] integerValue];
     
     
     //file_path
     self.file_path             =[dictionary objectForKey:@"file_path"];
     
-    
-                                   
-    self.pcb_uart_port_name     = [dictionary objectForKey:@"pcb_uart_port_name"];
-    self.pcb_uart_baud          = [[dictionary objectForKey:@"pcb_uart_baud"]integerValue];
-    
-    self.pcb_spi_port_name      = [dictionary objectForKey:@"pcb_spi_port_name"];
-    self.pcb_spi_baud           = [[dictionary objectForKey:@"pcb_spi_baud"]integerValue];
-    
     self.fixture_id             = [dictionary objectForKey:@"fixture_id"];
     
-    self.thdn                   = [[dictionary objectForKey:@"thdn"]integerValue];
-    
-    self.spkvol                 = [[dictionary objectForKey:@"spkvol"]integerValue];
-    self.spkscale               = [[dictionary objectForKey:@"spkscale"]integerValue];
-    
-    self.out_rate               = [[dictionary objectForKey:@"out_rate"]integerValue];
-    self.in_rate                = [[dictionary objectForKey:@"in_rate"]integerValue];
-    
-    self.micl_calibration_time  = [dictionary objectForKey:@"micl_calibration_time"];
-    self.micl_calibration_db    = [[dictionary objectForKey:@"micl_calibration_db"]floatValue];
-    self.micl_calibration_v_pa  = [[dictionary objectForKey:@"micl_calibration_v_pa"]floatValue];
-    
-    self.micr_calibration_time  = [dictionary objectForKey:@"micr_calibration_time"];
-    self.micr_calibration_db    = [[dictionary objectForKey:@"micr_calibration_db"]floatValue];
-    self.micr_calibration_v_pa  = [[dictionary objectForKey:@"micr_calibration_v_pa"]floatValue];
-    
-    self.mics_calibration_time  = [dictionary objectForKey:@"mics_calibration_time"];
-    self.mics_calibration_db    = [[dictionary objectForKey:@"mics_calibration_db"]floatValue];
-    self.mics_calibration_v_pa  = [[dictionary objectForKey:@"mics_calibration_v_pa"]floatValue];
-    
-    self.spk_calibration_time   = [dictionary objectForKey:@"spk_calibration_time"];
-    self.spk_calibration_db1    = [[dictionary objectForKey:@"spk_calibration_db1"]floatValue];
-    self.spk_calibration_db1_v  = [[dictionary objectForKey:@"spk_calibration_db1_v"]floatValue];
-    self.spk_calibration_db2    = [[dictionary objectForKey:@"spk_calibration_db2"]floatValue];
-    self.spk_calibration_db2_v  = [[dictionary objectForKey:@"spk_calibration_db2_v"]floatValue];
-    
     self.pdca_is_upload         = [[dictionary objectForKey:@"pdca_is_upload"]boolValue];
+    
+    
+    //上传SFC&PDCA项目相关变量定义
+    self.Gap1UpperLimit         = [dictionary objectForKey:@"Gap1UpperLimit"];
+    self.Gap1LowerLimit         = [dictionary objectForKey:@"Gap1LowerLimit"];
+    self.Gap1Unit               = [dictionary objectForKey:@"Gap1Unit"];
+    
+    self.Gap2UpperLimit         = [dictionary objectForKey:@"Gap2UpperLimit"];
+    self.Gap2LowerLimit         = [dictionary objectForKey:@"Gap2LowerLimit"];
+    self.Gap2Unit               = [dictionary objectForKey:@"Gap2Unit"];
+    
+    self.Gap3UpperLimit         = [dictionary objectForKey:@"Gap3UpperLimit"];
+    self.Gap3LowerLimit         = [dictionary objectForKey:@"Gap3LowerLimit"];
+    self.Gap3Unit               = [dictionary objectForKey:@"Gap3Unit"];
+    
+    self.Gap4UpperLimit         = [dictionary objectForKey:@"Gap4UpperLimit"];
+    self.Gap4LowerLimit         = [dictionary objectForKey:@"Gap4LowerLimit"];
+    self.Gap4Unit               = [dictionary objectForKey:@"Gap4Unit"];
+    
+    self.OHMUpperLimit          = [dictionary objectForKey:@"OHMUpperLimit"];
+    self.OHMLowerLimit          = [dictionary objectForKey:@"OHMLowerLimit"];
+    self.OHMUnit                = [dictionary objectForKey:@"OHMUnit"];
+    
+    self.IP_MacWin              = [dictionary objectForKey:@"IP_MacWin"];
+    self.Port_MacWin            = [dictionary objectForKey:@"Port_MacWin"];
     
 }
 //=============================================
@@ -218,51 +169,11 @@
     [dictionary setObject:_sw_name                                             forKey:@"sw_name"];
     [dictionary setObject:_sw_ver                                              forKey:@"sw_ver"];
     
-    
-    
-    
-    
-    [dictionary setObject:_fixture_uart_port_name                              forKey:@"fixture_uart_port_name"];
-    [dictionary setObject:[NSNumber numberWithInteger:_fixture_uart_baud]      forKey:@"fixture_uart_baud"];
-    //温湿度传感器
-     [dictionary setObject:_humiture_uart_port_name                              forKey:@"humiture_uart_port_name"];
-    [dictionary setObject:[NSNumber numberWithInteger:_humiture_uart_baud]                              forKey:@"humiture_uart_baud"];
     [dictionary setObject:_file_path forKey:@"file_path"];
     
     
-    [dictionary setObject:_pcb_uart_port_name                                  forKey:@"pcb_uart_port_name"];
-    [dictionary setObject:[NSNumber numberWithInteger:_pcb_uart_baud]          forKey:@"pcb_uart_baud"];
-    
-    [dictionary setObject:_pcb_spi_port_name                                   forKey:@"pcb_spi_port_name"];
-    [dictionary setObject:[NSNumber numberWithInteger:_pcb_spi_baud]           forKey:@"pcb_spi_baud"];
-    
     [dictionary setObject:_fixture_id                                          forKey:@"fixture_id"];
     
-    [dictionary setObject:[NSNumber numberWithInteger:_thdn]                   forKey:@"thdn"];
-    
-    [dictionary setObject:[NSNumber numberWithInteger:_spkvol]                 forKey:@"spkvol"];
-    [dictionary setObject:[NSNumber numberWithInteger:_spkscale]               forKey:@"spkscale"];
-    
-    [dictionary setObject:[NSNumber numberWithInteger:_out_rate]               forKey:@"out_rate"];
-    [dictionary setObject:[NSNumber numberWithInteger:_in_rate]                forKey:@"in_rate"];
-    
-    [dictionary setObject:_micl_calibration_time                               forKey:@"micl_calibration_time"];
-    [dictionary setObject:[NSNumber numberWithFloat:_micl_calibration_db]      forKey:@"micl_calibration_db"];
-    [dictionary setObject:[NSNumber numberWithFloat:_micl_calibration_v_pa]    forKey:@"micl_calibration_v_pa"];
-    
-    [dictionary setObject:_micr_calibration_time                               forKey:@"micr_calibration_time"];
-    [dictionary setObject:[NSNumber numberWithFloat:_micr_calibration_db]      forKey:@"micr_calibration_db"];
-    [dictionary setObject:[NSNumber numberWithFloat:_micr_calibration_v_pa]    forKey:@"micr_calibration_v_pa"];
-    
-    [dictionary setObject:_mics_calibration_time                               forKey:@"mics_calibration_time"];
-    [dictionary setObject:[NSNumber numberWithFloat:_mics_calibration_db]      forKey:@"mics_calibration_db"];
-    [dictionary setObject:[NSNumber numberWithFloat:_mics_calibration_v_pa]    forKey:@"mics_calibration_v_pa"];
-    
-    [dictionary setObject:_spk_calibration_time                                forKey:@"spk_calibration_time"];
-    [dictionary setObject:[NSNumber numberWithFloat:_spk_calibration_db1]      forKey:@"spk_calibration_db1"];
-    [dictionary setObject:[NSNumber numberWithFloat:_spk_calibration_db1_v]    forKey:@"spk_calibration_db1_v"];
-    [dictionary setObject:[NSNumber numberWithFloat:_spk_calibration_db2]      forKey:@"spk_calibration_db2"];
-    [dictionary setObject:[NSNumber numberWithFloat:_spk_calibration_db2_v]    forKey:@"spk_calibration_db2_v"];
     
     [dictionary setObject:[NSNumber numberWithBool:_pdca_is_upload]            forKey:@"pdca_is_upload"];
     

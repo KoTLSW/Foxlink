@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UerName</key>
-	<string>op</string>
-	<key>UserPassWords</key>
-	<string>op</string>
-	<key>SocketConfig</key>
-	<dict>
-		<key>Port</key>
-		<string>8888</string>
-		<key>IP</key>
-		<string>127.0.0.1</string>
-	</dict>
 	<key>ServerFC</key>
 	<dict>
 		<key>Server_IP</key>

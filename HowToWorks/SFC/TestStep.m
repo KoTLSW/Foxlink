@@ -121,7 +121,6 @@ static TestStep* test=nil;
         
         if(!flag)
         {
-            flag=YES;//复位治具
             //复位治具
 //            [[FixtureDevice Instance] WriteLine:nil andCmd:[[[testScriptPlist ReadDictionary:FIXTURE_ACTION] objectForKey:FIXTURE_RESET] objectForKey:COMMAND_TEST_COMMAND]];
         }
@@ -130,7 +129,6 @@ static TestStep* test=nil;
             time(&tmStart);
         }
     }
-    
     return flag;
 }
 

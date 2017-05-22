@@ -53,9 +53,24 @@
     IBOutlet NSTextField *TestModle;        //测试模式(A,AB,AAB,AAA)
 
     //------BM----------
-    IBOutlet NSTextField *SN1Lable;          //显示当前测试产品的SN
-    IBOutlet NSTextField *SN1;              //SN
-    IBOutlet NSTextField *SB1;              //S_BUILD
+    IBOutlet NSTextField *SN1;              //SN1
+    IBOutlet NSTextField *SN2;              //SN2
+    IBOutlet NSTextField *SN3;              //SN3
+    IBOutlet NSTextField *SN4;              //SN4
+    
+    IBOutlet NSTextField *SFC1;              //SFC
+    IBOutlet NSTextField *SFC2;              //SFC
+    IBOutlet NSTextField *SFC3;              //SFC
+    IBOutlet NSTextField *SFC4;              //SFC
+    
+    IBOutlet NSTextField *PDCA1;              //PDCA1
+    IBOutlet NSTextField *PDCA2;              //PDCA2
+    IBOutlet NSTextField *PDCA3;              //PDCA3
+    IBOutlet NSTextField *PDCA4;              //PDCA4
+    
+    
+    
+    
     IBOutlet NSTextField *TestPassCount;    //测试Pass数量
     IBOutlet NSTextField *TestFailCount;    //测试Fail数量
     IBOutlet NSTextField *TestTotalCount;   //测试Total数量
@@ -73,7 +88,9 @@
     IBOutlet NSButton    *btPause;            //暂停
     IBOutlet NSButton    *btContinue;         //继续
     IBOutlet NSTextField *UserName;         //用户名
-
+    
+    
+    
 }
 +(id)GetObject;
 @property(readonly)Param* ex_param;

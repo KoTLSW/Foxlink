@@ -76,16 +76,16 @@
 		07E7A8621EA1B73200FC6F70 /* PDCA.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E7A8611EA1B73200FC6F70 /* PDCA.m */; };
 		07F028E51E8B390000C7125B /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F028E41E8B390000C7125B /* Window.m */; };
 		07F028E91E8B394D00C7125B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F028E81E8B394D00C7125B /* WindowController.m */; };
-		07FC08211EC69D8C000A7604 /* GPIBDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FC08201EC69D8C000A7604 /* GPIBDevice.framework */; };
 		07FC08281EC69DBD000A7604 /* BYDSFCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08231EC69DBD000A7604 /* BYDSFCManager.m */; };
 		07FC08291EC69DBD000A7604 /* BYDSFCUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08251EC69DBD000A7604 /* BYDSFCUnit.m */; };
 		07FC082A1EC69DBD000A7604 /* TestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08271EC69DBD000A7604 /* TestStep.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		07FC082C1EC69E0F000A7604 /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FC082B1EC69E0F000A7604 /* Regex.framework */; };
 		07FC082F1EC69F54000A7604 /* pudding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07FC082E1EC69F54000A7604 /* pudding.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		07FC08451EC6A669000A7604 /* Agilent3458A.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC083E1EC6A669000A7604 /* Agilent3458A.m */; };
 		07FC08461EC6A669000A7604 /* Agilent33210A.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08401EC6A669000A7604 /* Agilent33210A.m */; };
 		07FC08471EC6A669000A7604 /* AgilentDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08421EC6A669000A7604 /* AgilentDevice.m */; };
 		07FC08481EC6A669000A7604 /* KeithleyDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08441EC6A669000A7604 /* KeithleyDevice.m */; };
+		A9B179501ECC7E520077422E /* GPIBDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B1794F1ECC7E520077422E /* GPIBDevice.framework */; };
+		A9B179521ECC7E5A0077422E /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B179511ECC7E5A0077422E /* Regex.framework */; };
 		C6A633B41EBE2D3900E5CDC7 /* PlistFile.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A633B31EBE2D3900E5CDC7 /* PlistFile.m */; };
 /* End PBXBuildFile section */
 
@@ -228,14 +228,12 @@
 		07F028E41E8B390000C7125B /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		07F028E71E8B394D00C7125B /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
 		07F028E81E8B394D00C7125B /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
-		07FC08201EC69D8C000A7604 /* GPIBDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPIBDevice.framework; path = HowToWorks/Dylib/GPIBDevice.framework; sourceTree = "<group>"; };
 		07FC08221EC69DBC000A7604 /* BYDSFCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYDSFCManager.h; path = HowToWorks/SFC/BYDSFCManager.h; sourceTree = "<group>"; };
 		07FC08231EC69DBD000A7604 /* BYDSFCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BYDSFCManager.m; path = HowToWorks/SFC/BYDSFCManager.m; sourceTree = "<group>"; };
 		07FC08241EC69DBD000A7604 /* BYDSFCUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYDSFCUnit.h; path = HowToWorks/SFC/BYDSFCUnit.h; sourceTree = "<group>"; };
 		07FC08251EC69DBD000A7604 /* BYDSFCUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BYDSFCUnit.m; path = HowToWorks/SFC/BYDSFCUnit.m; sourceTree = "<group>"; };
 		07FC08261EC69DBD000A7604 /* TestStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestStep.h; path = HowToWorks/SFC/TestStep.h; sourceTree = "<group>"; };
 		07FC08271EC69DBD000A7604 /* TestStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStep.m; path = HowToWorks/SFC/TestStep.m; sourceTree = "<group>"; };
-		07FC082B1EC69E0F000A7604 /* Regex.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Regex.framework; path = HowToWorks/Dylib/Regex.framework; sourceTree = "<group>"; };
 		07FC082D1EC69F54000A7604 /* pudding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pudding.h; path = PDCA/pudding.h; sourceTree = "<group>"; };
 		07FC082E1EC69F54000A7604 /* pudding.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = pudding.mm; path = PDCA/pudding.mm; sourceTree = "<group>"; };
 		07FC08301EC6A039000A7604 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Macro.h; path = HowToWorks/SFC/Macro.h; sourceTree = "<group>"; };
@@ -247,6 +245,8 @@
 		07FC08421EC6A669000A7604 /* AgilentDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgilentDevice.m; sourceTree = "<group>"; };
 		07FC08431EC6A669000A7604 /* KeithleyDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeithleyDevice.h; sourceTree = "<group>"; };
 		07FC08441EC6A669000A7604 /* KeithleyDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeithleyDevice.m; sourceTree = "<group>"; };
+		A9B1794F1ECC7E520077422E /* GPIBDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPIBDevice.framework; path = HowToWorks/Dylib/GPIBDevice.framework; sourceTree = "<group>"; };
+		A9B179511ECC7E5A0077422E /* Regex.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Regex.framework; path = HowToWorks/Dylib/Regex.framework; sourceTree = "<group>"; };
 		C6A633B21EBE2D3900E5CDC7 /* PlistFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistFile.h; sourceTree = "<group>"; };
 		C6A633B31EBE2D3900E5CDC7 /* PlistFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlistFile.m; sourceTree = "<group>"; };
 		C6B502241EBC007A0064D14C /* visa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = visa.h; sourceTree = "<group>"; };
@@ -262,10 +262,10 @@
 				07576AF91E7A72EF00A1D669 /* libIPSFCPost.dylib in Frameworks */,
 				07576AF81E7A72EF00A1D669 /* libInstantPudding.dylib in Frameworks */,
 				07576ACE1E7A60EF00A1D669 /* AudioToolbox.framework in Frameworks */,
-				07FC082C1EC69E0F000A7604 /* Regex.framework in Frameworks */,
+				A9B179501ECC7E520077422E /* GPIBDevice.framework in Frameworks */,
 				07700A021EA6E6AE00746B4C /* VISA.framework in Frameworks */,
 				07576AD01E7A60FB00A1D669 /* IOBluetooth.framework in Frameworks */,
-				07FC08211EC69D8C000A7604 /* GPIBDevice.framework in Frameworks */,
+				A9B179521ECC7E5A0077422E /* Regex.framework in Frameworks */,
 				07576AF71E7A72EF00A1D669 /* libCBAuth.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,8 +595,8 @@
 		C6A633B61EBE2F5F00E5CDC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				07FC08201EC69D8C000A7604 /* GPIBDevice.framework */,
-				07FC082B1EC69E0F000A7604 /* Regex.framework */,
+				A9B179511ECC7E5A0077422E /* Regex.framework */,
+				A9B1794F1ECC7E520077422E /* GPIBDevice.framework */,
 				07576ACF1E7A60FB00A1D669 /* IOBluetooth.framework */,
 				07576ACD1E7A60EF00A1D669 /* AudioToolbox.framework */,
 			);

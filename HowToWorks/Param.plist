@@ -2,36 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>New item</key>
-	<string></string>
 	<key>dut_type</key>
 	<string>Sensor Board</string>
 	<key>file_path</key>
 	<string>TestLogFile</string>
 	<key>fixture_id</key>
 	<string>000001</string>
-	<key>fixture_uart_baud</key>
-	<integer>115200</integer>
-	<key>fixture_uart_port_name</key>
-	<string>//dev//cu.usbserial-Fixture</string>
-	<key>fixture_uart_dataBit</key>
-	<string>8</string>
-	<key>fixture_uart_parity</key>
-	<string>none</string>
-	<key>fixture_uart_stopBit</key>
-	<string>1</string>
-	<key>humiture_uart_baud</key>
-	<string>9600</string>
-	<key>humiture_uart_port_name</key>
-	<string>//dev//cu.SLAB_USBtoUART</string>
-	<key>humiture_uart_dataBit</key>
-	<string>8</string>
-	<key>humiture_uart_parity</key>
-	<string>none</string>
-	<key>humiture_uart_stopBit</key>
-	<string>1</string>
-	<key>in_rate</key>
-	<integer>16000</integer>
 	<key>sw_name</key>
 	<string>EW_BT_MIC_SPK</string>
 	<key>sw_ver</key>
@@ -54,5 +30,39 @@
 	<string>/vault/Test5</string>
 	<key>txt_path</key>
 	<string>/vault/testlog/</string>
+	<key>Gap1UpperLimit</key>
+	<string>0.25</string>
+	<key>Gap1LowerLimit</key>
+	<string>0</string>
+	<key>Gap1Unit</key>
+	<string>Gap</string>
+	<key>Gap2UpperLimit</key>
+	<string>0.25</string>
+	<key>Gap2LowerLimit</key>
+	<string>0</string>
+	<key>Gap2Unit</key>
+	<string>Gap</string>
+	<key>Gap3UpperLimit</key>
+	<string>0.25</string>
+	<key>Gap3LowerLimit</key>
+	<string>0</string>
+	<key>Gap3Unit</key>
+	<string>Gap</string>
+	<key>Gap4UpperLimit</key>
+	<string>0.25</string>
+	<key>Gap4LowerLimit</key>
+	<string>0</string>
+	<key>Gap4Unit</key>
+	<string>Gap</string>
+	<key>OHMUpperLimit</key>
+	<string>10</string>
+	<key>OHMLowerLimit</key>
+	<string>0</string>
+	<key>OHMUnit</key>
+	<string>OHM</string>
+	<key>IP_MacWin</key>
+	<string>127.0.0.1</string>
+	<key>Port_MacWin</key>
+	<string>5025</string>
 </dict>
 </plist>
