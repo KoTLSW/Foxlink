@@ -67,82 +67,37 @@ static BYDSFCManager* bydSFC=nil;
            faiureMessage:(NSString *)failMsg
 
 {
-//    NSMutableString* urlString = [NSMutableString stringWithFormat:@"http://%@:%@/manufacturing/BobcatIntegerationServlet?",(sfcCheckType==e_BDA_VERIFY_CHECK)?_unit.BDAServerIP:_unit.MESServerIP, _unit.netPort];          // ip and port
+    NSLog(@"function: createURL");
     
-     NSMutableString* urlString = [NSMutableString stringWithFormat:@"http://%@:%@/manufacturing/BobcatIntegerationServlet?",_unit.MESServerIP, _unit.netPort];          // ip and port
-    
-
-    NSString* strStationID=[[PDCA Instance] GetStationID];
-
+    // SFC格式：SFC_URL=Http://10.1.1.21/foxlink/
+     NSMutableString* urlString = [NSMutableString stringWithFormat:@"http://%@/foxlink/?",_unit.MESServerIP];          // ip
     
     switch (sfcCheckType)
     {
         case e_SN_CHECK:
         {
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_STATION_NAME,_unit.stationName];
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, strStationID];
             [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@",SFC_TEST_C_TYPE,@"validate"];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"QUERY_RECORD"];
+            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, [[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_ID]];
+            [urlString appendFormat:@"%@=%@",SFC_TEST_P_TYPE,@"unit_process_check"];
         }
             break;
+
+            //http:
+            //192.168.229.253/Foxlink/?result=PASS&c=ADD_RECORD&sn=FL471850002HXNV1Q&product=B443&test_station_name=SMT-DEVELOPMENT6&station_id=FLDG_FQ3-5FAP-01_2_SMT-DEVELOPMENT6&mac_address=40:6c:8f:32:b3:cc&start_time=2017-04-1010:27:59&stop_time=2017-04-1010:28:41
+ 
         case  e_COMPLETE_RESULT_CHECK:
         {
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_STATION_NAME,_unit.stationName];
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, strStationID];
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_CTYPE]];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_MAC_ADDRESS,[_unit GetMacAddress]];
-            
-//            if ([result compare:@cFAIL] != NSOrderedSame)
-//            {
-                [urlString appendFormat:@"%@=%@&",SFC_TEST_SW_VERSION,[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
-//            }
-            
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_PRODUCT,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_PRODUCT]];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_RESULT,result];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"ADD_RECORD"];
+            [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_PRODUCT,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_PRODUCT]];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_STATION_NAME,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_NANE]];
+            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, [[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_ID]];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_MAC_ADDRESS,[_unit GetMacAddress]];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_START_TIME,tmStartStr];
             [urlString appendFormat:@"%@=%@",SFC_TEST_STOP_TIME,tmEndStr];
-            
-            if ([result compare:@cFAIL] == NSOrderedSame)
-            {
-                [urlString appendFormat:@"&%@=%@", SFC_TEST_FAIL_LIST, NC_FCT1_KEY]; // fail type
-                
-                if ([failMsg length]>512)
-                {
-                    [failMsg substringToIndex:512];
-                }
-                
-                [urlString appendFormat:@"&%@=%@", SFC_TEST_FAIL_MESSAGE, failMsg];
-            }
-        }
-            break;
-        case e_BDA_RESULT_CHECK:
-        {
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"ADD_ATTR"];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_MAC_ADDRESS,[_unit GetMacAddress]];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_START_TIME,tmStartStr];
-            [urlString appendFormat:@"%@=%@",SFC_TEST_BDA,strbdaSerial];
-        }
-            break;
-            
-        //**************************2016/8/6************************************************
-        case e_BDA_QUERY_CHECK:
-        {
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"QUERY_RECORD"];
-            [urlString appendFormat:@"%@=%@",SFC_TEST_P_TYPE,@"assignbda"];
-            
-        }
-            break;
-        //**************************end*****************************************************
-        case e_BDA_VERIFY_CHECK:
-        {
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"QUERY_RECORD"];
-            [urlString appendFormat:@"%@=%@",SFC_TEST_P_TYPE,@"bda"];
-//            _strUpdateBDA=strbdaSerial;
-//            [self setStrUpdateBDA:strbdaSerial];
+    
         }
             break;
         default:
@@ -155,6 +110,7 @@ static BYDSFCManager* bydSFC=nil;
 
 - (BOOL) submit:(NSString *)urlString
 {
+    NSLog(@"Function:submit");
     BOOL flag = NO;
     _isCheckPass = NO;
     //[[TestLog Instance] WriteLogResult:[GetTimeDay GetCurrentTime] andText:urlString];
@@ -210,6 +166,7 @@ static BYDSFCManager* bydSFC=nil;
 
 - (void) handleHttpRequest:(NSURLRequest *)urlRequest
 {
+    NSLog(@"Function:handleHttpRequest ");
     _isCheckPass = NO;
     [NSThread sleepForTimeInterval:0.3];
     NSData* byteRequest = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:nil error:nil];
@@ -224,44 +181,7 @@ static BYDSFCManager* bydSFC=nil;
     }
     else if([backFromHttpStr containsString:@"SFC_OK"])
     {
-        if (_SFCCheckType==e_BDA_VERIFY_CHECK)
-        {
-             NSString* strBDARegex=[Regex RegexStrResult:backFromHttpStr andRegex:@"(?<==)(\\w*)(?=)"];
-             strBDARegex=[strBDARegex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-             NSLog(@"regex bda:%@",strBDARegex);
-             NSLog(@"Update bda:%@",_strUpdateBDA);
-            [strLogFile appendFormat:@"regex bda:%@\r\n",strBDARegex];
-            [strLogFile appendFormat:@"Update bda:%@\r\n",_strUpdateBDA];
-            
-            if ([strBDARegex isEqualToString:_strUpdateBDA])
-            {
-                _SFCErrorType=SFC_Success;
-                NSLog(@"upload bda is equal to http back bda");
-                [strLogFile appendString:@"upload bda is equal to http back bda\r\n"];
-            }
-            else
-            {
-                _SFCErrorType=SFC_BDA_Not_Regex_SN;
-                NSLog(@"upload bda is not equal to http back bda");
-                [strLogFile appendString:@"upload bda is not equal to http back bda\r\n"];
-            }
-        }
-        
-        //*******************************2016/8/6*************************************************************
-        else if (_SFCCheckType==e_BDA_QUERY_CHECK)
-        {
-            NSString* strBDARegex=[Regex RegexStrResult:backFromHttpStr andRegex:@"(?<==)(\\w*)(?=)"];
-            strBDARegex=[strBDARegex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [[BYDSFCManager Instance]setStrMSEBDA:strBDARegex];
-            NSLog(@"====================%@",[BYDSFCManager Instance].strMSEBDA);
-            [strLogFile appendFormat:@"query bda:%@\r\n",strBDARegex];
             _SFCErrorType=SFC_Success;
-        }
-        //*******************************2016/8/6*************************************************************
-        else
-        {
-            _SFCErrorType=SFC_Success;
-        }
     }
     else if ([Regex RegexBoolResult:backFromHttpStr andRegex:@"Done"])
     {
@@ -332,18 +252,11 @@ static BYDSFCManager* bydSFC=nil;
             tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec];
 }
 
-//
--(BOOL)checkSNRgexedBDA:(NSString*)sn
-           andBDASerail:(NSString *)bdaSerial
-{
-    NSString* url = [self createURL:e_BDA_VERIFY_CHECK sn:sn testResult:nil
-                          startTime:nil endTime:nil bdaSerial:bdaSerial faiureMessage:nil];
-    NSLog(@"Verify BDA url:%@",url);
-    return [self submit:url];
-}
 
 - (BOOL) checkSerialNumber:(NSString *)sn
 {
+    NSLog(@"Function: checkSerialNumber");
+    
     NSString* url = [self createURL:e_SN_CHECK sn:sn testResult:nil
                           startTime:nil endTime:nil bdaSerial:nil faiureMessage:nil];
     NSLog(@"Check SerialNumber url:%@",url);
@@ -366,33 +279,5 @@ static BYDSFCManager* bydSFC=nil;
     return [self submit:url];
 }
 
-
-
-- (BOOL) checkBDASerail:(NSString *)sn
-                BDASerail:(NSString *)bdaSerial
-             startTime:(time_t)tmStart
-{
-    NSString* url = [self createURL:e_BDA_RESULT_CHECK
-                                 sn:sn
-                         testResult:nil
-                          startTime:[self timeToStr:tmStart]
-                            endTime:nil
-                          bdaSerial:bdaSerial
-                      faiureMessage:nil];
-    NSLog(@"CheckBDA url:%@",url);
-    return [self submit:url];
-}
-
-
-
-//*************************2016/8/6****************************************************
--(BOOL)checkQueryBDA:(NSString*)sn
-{
-    NSString* url = [self createURL:e_BDA_QUERY_CHECK sn:sn testResult:nil
-                          startTime:nil endTime:nil bdaSerial:nil faiureMessage:nil];
-    NSLog(@"Verify BDA url:%@",url);
-    return [self submit:url];
-}
-//*************************end*********************************************************
 
 @end

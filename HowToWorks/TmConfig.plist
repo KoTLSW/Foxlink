@@ -5,21 +5,19 @@
 	<key>ServerFC</key>
 	<dict>
 		<key>Server_IP</key>
-		<string>10.12.5.70</string>
-		<key>BDAServer_IP</key>
-		<string>10.12.5.70</string>
-		<key>Net_Port</key>
-		<string>80</string>
+		<string>10.1.1.21</string>
 		<key>C</key>
 		<string>ADD_RECORD</string>
 		<key>Station_Name</key>
-		<string>ZR-MLB-FCT1</string>
+		<string>AE-1</string>
+		<key>Station_ID</key>
+		<string>FLDG_FQ3-5FAP_FQ3-5FAP-01_2_AE-1</string>
 		<key>Front_StationName</key>
 		<string>ZR-MLB-ICT</string>
 		<key>Next_StationName</key>
 		<string>ZR-BT-COND</string>
 		<key>Product</key>
-		<string>A211</string>
+		<string>B443</string>
 	</dict>
 </dict>
 </plist>

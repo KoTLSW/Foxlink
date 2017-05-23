@@ -171,6 +171,7 @@
 //SCF upload
 #define     CONFIG_SFC                              @"ServerFC"
 
+#define     CONFIG_SFC_PRODUCT                      @"Product"
 #define     CONFIG_SFC_SERVER_IP                    @"Server_IP"
 #define     CONFIG_SFC_BDA_SERVER_IP                @"BDAServer_IP"
 #define     CONFIG_SFC_NET_PORT                     @"Net_Port"

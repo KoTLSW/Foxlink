@@ -48,10 +48,12 @@
 //#define SFC_FAILURE_MESSAGE     @"failure_message"
 //#define SFC_SW_VERSION          @"sw_version"
 
+#define SFC_TEST_PRODUCT            @"product"
 #define SFC_TEST_STATION_NAME       @"test_station_name"
-#define SFC_TEST_STATION_ID         @"station_id"
+#define SFC_TEST_STATION_ID         @"tsid"
 #define SFC_TEST_SN                 @"sn"
 #define SFC_TEST_C_TYPE             @"c"
+#define SFC_TEST_P_TYPE             @"p"
 #define SFC_TEST_MAC_ADDRESS        @"mac_address"
 #define SFC_TEST_SW_VERSION         @"sw_version"
 #define SFC_TEST_PRODUCT            @"product"

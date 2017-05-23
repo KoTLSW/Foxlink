@@ -83,6 +83,7 @@ static TestStep* test=nil;
 //SFC检测上传sn
 -(BOOL)StepSFC_CheckUploadSN:(BOOL)isUploadSFC
 {
+    NSLog(@"Function: StepSFC_CheckUploadSN");
     BOOL flag=YES;
     
     //检测是否需要上传SFC
