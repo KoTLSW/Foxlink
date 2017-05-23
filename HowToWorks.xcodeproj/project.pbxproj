@@ -76,7 +76,7 @@
 		07E7A8621EA1B73200FC6F70 /* PDCA.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E7A8611EA1B73200FC6F70 /* PDCA.m */; };
 		07F028E51E8B390000C7125B /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F028E41E8B390000C7125B /* Window.m */; };
 		07F028E91E8B394D00C7125B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F028E81E8B394D00C7125B /* WindowController.m */; };
-		07FC08281EC69DBD000A7604 /* BYDSFCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08231EC69DBD000A7604 /* BYDSFCManager.m */; };
+		07FC08281EC69DBD000A7604 /* BYDSFCManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08231EC69DBD000A7604 /* BYDSFCManager.mm */; };
 		07FC08291EC69DBD000A7604 /* BYDSFCUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08251EC69DBD000A7604 /* BYDSFCUnit.m */; };
 		07FC082A1EC69DBD000A7604 /* TestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC08271EC69DBD000A7604 /* TestStep.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		07FC082F1EC69F54000A7604 /* pudding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07FC082E1EC69F54000A7604 /* pudding.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -229,7 +229,7 @@
 		07F028E71E8B394D00C7125B /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
 		07F028E81E8B394D00C7125B /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
 		07FC08221EC69DBC000A7604 /* BYDSFCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYDSFCManager.h; path = HowToWorks/SFC/BYDSFCManager.h; sourceTree = "<group>"; };
-		07FC08231EC69DBD000A7604 /* BYDSFCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BYDSFCManager.m; path = HowToWorks/SFC/BYDSFCManager.m; sourceTree = "<group>"; };
+		07FC08231EC69DBD000A7604 /* BYDSFCManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BYDSFCManager.mm; path = HowToWorks/SFC/BYDSFCManager.mm; sourceTree = "<group>"; };
 		07FC08241EC69DBD000A7604 /* BYDSFCUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYDSFCUnit.h; path = HowToWorks/SFC/BYDSFCUnit.h; sourceTree = "<group>"; };
 		07FC08251EC69DBD000A7604 /* BYDSFCUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BYDSFCUnit.m; path = HowToWorks/SFC/BYDSFCUnit.m; sourceTree = "<group>"; };
 		07FC08261EC69DBD000A7604 /* TestStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestStep.h; path = HowToWorks/SFC/TestStep.h; sourceTree = "<group>"; };
@@ -482,7 +482,7 @@
 			children = (
 				07FC08301EC6A039000A7604 /* Macro.h */,
 				07FC08221EC69DBC000A7604 /* BYDSFCManager.h */,
-				07FC08231EC69DBD000A7604 /* BYDSFCManager.m */,
+				07FC08231EC69DBD000A7604 /* BYDSFCManager.mm */,
 				07FC08241EC69DBD000A7604 /* BYDSFCUnit.h */,
 				07FC08251EC69DBD000A7604 /* BYDSFCUnit.m */,
 				07FC08261EC69DBD000A7604 /* TestStep.h */,
@@ -836,7 +836,7 @@
 				0744E2301E9DC2E100164114 /* SerialPortList.m in Sources */,
 				07576B191E7A8D9C00A1D669 /* TimeDate.m in Sources */,
 				0744E22F1E9DC2E100164114 /* SerialPort.m in Sources */,
-				07FC08281EC69DBD000A7604 /* BYDSFCManager.m in Sources */,
+				07FC08281EC69DBD000A7604 /* BYDSFCManager.mm in Sources */,
 				07576A9C1E7A5E7700A1D669 /* AppDelegate.m in Sources */,
 				07576AF01E7A66BD00A1D669 /* FileTXT.m in Sources */,
 				0754FF1F1E9B06A400EDDC67 /* IASocketConnection.mm in Sources */,

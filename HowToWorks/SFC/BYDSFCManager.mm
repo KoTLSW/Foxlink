@@ -7,8 +7,16 @@
 //
 
 #import "BYDSFCManager.h"
+#import "TestContext.h"
+
 
 static BYDSFCManager* bydSFC=nil;
+
+@interface BYDSFCManager()
+{
+    CTestContext *ctestcontext;
+}
+@end
 
 @implementation BYDSFCManager
 @synthesize SFCErrorType=_SFCErrorType;
@@ -20,26 +28,24 @@ static BYDSFCManager* bydSFC=nil;
 
 - (id) init
 {
+    ctestcontext = new CTestContext();
     if (self = [super init])
     {
         _unit = [[BYDSFCUnit alloc] init];
-        configPlist=[[PlistFile alloc] init:PLIST_CONFIG_FILE_NAME];
         
-        if (configPlist != nil)
-        {
-            _unit.MESServerIP = [[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_SERVER_IP];
-            _unit.BDAServerIP=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_BDA_SERVER_IP];
-            _unit.netPort=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_NET_PORT];
-            _unit.stationID=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_ID];
-            _unit.stationName=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_NANE];
-            _unit.cType=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_CTYPE];
-            _unit.product=[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_PRODUCT];
-        }
+        _unit.MESServerIP = [self GetStrFromJson:@"SFC_IP"];
+        _unit.stationName=[self GetStrFromJson:@"STATION_TYPE"];
+        _unit.product=[self GetStrFromJson:@"PRODUCT"];
+        //获取stationID
+        NSMutableString *stationidstring = [[NSMutableString alloc] init];
+        [stationidstring appendString:[self GetStrFromJson:@"SITE"]];
+        [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"LOCATION"]]];
+        [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_NUMBER"]]];
+        [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_TYPE"]]];
+        _unit.stationID=stationidstring;
         
         _errorMessage = @"";
         _strSN=[[NSString alloc] init];
-        _strUpdateBDA=[[NSString alloc] init];
-//      _strLogFileText=[[NSMutableString alloc] initWithString:@""];
     }
     
     return self;
@@ -63,7 +69,7 @@ static BYDSFCManager* bydSFC=nil;
               testResult:(NSString *)result
                startTime:(NSString *)tmStartStr
                  endTime:(NSString *)tmEndStr
-               bdaSerial:(NSString*)strbdaSerial
+               faiureItem:(NSString*)failItem
            faiureMessage:(NSString *)failMsg
 
 {
@@ -78,7 +84,7 @@ static BYDSFCManager* bydSFC=nil;
         {
             [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"QUERY_RECORD"];
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, [[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_ID]];
+            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID,_unit.stationID];
             [urlString appendFormat:@"%@=%@",SFC_TEST_P_TYPE,@"unit_process_check"];
         }
             break;
@@ -91,13 +97,14 @@ static BYDSFCManager* bydSFC=nil;
             [urlString appendFormat:@"%@=%@&",SFC_TEST_RESULT,result];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_C_TYPE,@"ADD_RECORD"];
             [urlString appendFormat:@"%@=%@&", SFC_TEST_SN, sn];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_PRODUCT,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_PRODUCT]];
-            [urlString appendFormat:@"%@=%@&",SFC_TEST_STATION_NAME,[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_NANE]];
-            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID, [[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_STATION_ID]];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_PRODUCT,_unit.product];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_STATION_NAME,_unit.stationName];
+            [urlString appendFormat:@"%@=%@&", SFC_TEST_STATION_ID,_unit.stationID];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_MAC_ADDRESS,[_unit GetMacAddress]];
             [urlString appendFormat:@"%@=%@&",SFC_TEST_START_TIME,tmStartStr];
-            [urlString appendFormat:@"%@=%@",SFC_TEST_STOP_TIME,tmEndStr];
-    
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_STOP_TIME,tmEndStr];
+            [urlString appendFormat:@"%@=%@&",SFC_TEST_FailItem,failItem];
+            [urlString appendFormat:@"%@=%@",SFC_Test_FailMsg,failMsg];
         }
             break;
         default:
@@ -179,65 +186,18 @@ static BYDSFCManager* bydSFC=nil;
     {
         _SFCErrorType=SFC_ErrorNet;
     }
-    else if([backFromHttpStr containsString:@"SFC_OK"])
+    else if([backFromHttpStr containsString:@"unit_process_check=OK"])
     {
-            _SFCErrorType=SFC_Success;
+        _SFCErrorType=SFC_Success;
     }
-    else if ([Regex RegexBoolResult:backFromHttpStr andRegex:@"Done"])
+    else
     {
-        _SFCErrorType =SFC_SN_Error;
+        _SFCErrorType =SFC_Fail;
+        NSRange RanngeReplace = [backFromHttpStr rangeOfString:@"unit_process_check="];
+        NSString *NgMsg = [backFromHttpStr substringFromIndex:RanngeReplace.location+RanngeReplace.length];
+        [ctestcontext->m_dicConfiguration setValue:NgMsg forKey:kContextSFCErrorMsg];
     }
-    else if ([Regex RegexBoolResult:backFromHttpStr andRegex:@"ERROR"])
-    {
-        NSString* strResult=[Regex RegexStrResult:backFromHttpStr andRegex:@"(?<=：)(.*?)(?=,)"];
-        
-        if ([Regex RegexBoolResult:strResult andRegex:[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_FRONT_STATION_NAME]])
-        {
-            _SFCErrorType=SFC_StayInFrontStation;
-        }
-        else if ([Regex RegexBoolResult:strResult andRegex:[[configPlist ReadDictionary:CONFIG_SFC] objectForKey:CONFIG_SFC_NEXT_STATION_NAME]])
-        {
-            if (_SFCCheckType==e_COMPLETE_RESULT_CHECK)
-            {
-                _SFCErrorType=SFC_Success;
-                NSLog(@"This is check Test result");
-                [strLogFile appendString:@"This is check Test result\r\n"];
-            }
-            else
-            {
-               _SFCErrorType=SFC_StayInNextStation;
-                 NSLog(@"This is check SN");
-                [strLogFile appendString:@"This is check SN\r\n"];
-            }
-        }
-        else if([Regex RegexBoolResult:backFromHttpStr andRegex:@"Exceeded"])
-        {
-            _SFCErrorType=SFC_OutOfTestCount;
-        }
-        else if([Regex RegexBoolResult:backFromHttpStr andRegex:@"exist"])
-        {
-            NSString* strBackBindSN=[Regex RegexStrResult:backFromHttpStr andRegex:@"(?<==)(.*?)(?=;)"];
-            
-            if (strBackBindSN!=nil && [strBackBindSN isEqualToString:_strSN])
-            {
-                _SFCErrorType=SFC_Success;
-                NSLog(@"BDA Binding success");
-                [strLogFile appendString:@"BDA Binding success\r\n"];
 
-            }
-            else
-            {
-                 _SFCErrorType=SFC_Exist_Error;
-                 NSLog(@"BDA Binding error");
-                [strLogFile appendString:@"BDA Binding error\r\n"];
-            }
-        }
-        
-        else
-        {
-            _SFCErrorType=SFC_SN_Error;
-        }
-    }
     
     //[[TestLog Instance] WriteLogResult:[GetTimeDay GetCurrentTime] andText:strLogFile];
     _isCheckPass = YES;
@@ -257,8 +217,8 @@ static BYDSFCManager* bydSFC=nil;
 {
     NSLog(@"Function: checkSerialNumber");
     
-    NSString* url = [self createURL:e_SN_CHECK sn:sn testResult:nil
-                          startTime:nil endTime:nil bdaSerial:nil faiureMessage:nil];
+    NSString* url = [self createURL:e_SN_CHECK sn:sn testResult:nil startTime:nil endTime:nil faiureItem:nil faiureMessage:nil];
+    
     NSLog(@"Check SerialNumber url:%@",url);
     return [self submit:url];
 }
@@ -267,17 +227,38 @@ static BYDSFCManager* bydSFC=nil;
                 result:(NSString *)result
              startTime:(time_t)tmStart
                endTime:(time_t)tmEnd
+              failItem:(NSString*)failitem
            failMessage:(NSString *)failMsg
 {
-    NSString* url = [self createURL:e_COMPLETE_RESULT_CHECK
-                                 sn:sn testResult:result
-                          startTime:[self timeToStr:tmStart]
-                            endTime:[self timeToStr:tmEnd]
-                            bdaSerial:nil
-                      faiureMessage:failMsg];
+    
+    NSString *url = [self createURL:e_COMPLETE_RESULT_CHECK sn:sn testResult:result startTime:[self timeToStr:tmStart] endTime:[self timeToStr:tmEnd] faiureItem:failitem faiureMessage:failMsg];
+    
+    
     NSLog(@"CheckComplete url:%@",url);
     return [self submit:url];
 }
 
+
+//从Json文件中读取键值
+-(NSString *)GetStrFromJson:(NSString *)Key
+{
+    
+    NSString * str = nil;
+    NSString * ghStationInfoContent = [NSString stringWithContentsOfFile:@"/vault/data_collection/test_station_config/gh_station_info.json"
+                                                                encoding:NSUTF8StringEncoding error:nil];
+    NSData * ghStationInfoData = [ghStationInfoContent dataUsingEncoding:NSUTF8StringEncoding];
+    if (ghStationInfoData)
+    {
+        NSDictionary * ghStationInfo = [NSJSONSerialization JSONObjectWithData:ghStationInfoData
+                                                                       options:0
+                                                                         error:nil];
+        NSDictionary * ghInfo = [ghStationInfo objectForKey:@"ghinfo"];
+        if (ghInfo)
+        {
+            str = [ghInfo objectForKey:Key];
+        }
+    }
+    return str;
+}
 
 @end

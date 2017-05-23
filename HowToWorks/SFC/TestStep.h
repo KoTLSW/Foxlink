@@ -59,8 +59,7 @@
 -(BOOL)StepSFC_CheckUploadSN:(BOOL)isUploadSFC;
 
 //SFC检测上传结果
--(BOOL)StepSFC_CheckUploadResult:(BOOL)isUploadSFC  andIsTestPass:(BOOL)isTestPass andFailMessage:(NSString*)strMessage;
-
+-(BOOL)StepSFC_CheckUploadResult:(BOOL)isUploadSFC  andIsTestPass:(BOOL)isTestPass andFailItem:(NSString*)strFailItem andFailMessage:(NSString*)strMessage;
 
 
 

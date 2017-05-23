@@ -64,6 +64,8 @@
 #define SFC_TEST_FAIL_MESSAGE       @"failure_message"
 #define SFC_TEST_BDA                @"bda"
 #define SFC_TEST_P_TYPE             @"p"
+#define SFC_TEST_FailItem           @"list_of_failing_tests"
+#define SFC_Test_FailMsg            @"failure_message"
 
 typedef enum eRecordType
 {
@@ -73,37 +75,19 @@ typedef enum eRecordType
 @interface BYDSFCUnit : NSObject
 {
     NSString* _MESServerIP;
-    NSString* _BDAServerIP;
-    NSNumber* _netPort;
-    NSString* _username;
-    NSString* _password;
-    NSNumber* _site;
-    NSString* _operation;
-    NSString* _resource;
     NSString* _cType;
     NSString* _stationName;
     NSString* _stationID;
     NSString* _product;
-    NSNumber* _numberOfStation;
     NSString* _macAddress;
-    NSString* _swVersion;
 }
 
 @property(readwrite, copy) NSString* MESServerIP;
-@property(readwrite,copy)  NSString* BDAServerIP;
-@property(readwrite, copy) NSNumber* netPort;
-@property(readwrite, copy) NSString* username;
-@property(readwrite, copy) NSString* password;
-@property(readwrite, copy) NSNumber* site;
-@property(readwrite, copy) NSString* operation;
-@property(readwrite, copy) NSString* resource;
 @property(readwrite, copy) NSString* cType;
 @property(readwrite, copy) NSString* stationName;
 @property(readwrite, copy) NSString* stationID;
 @property(readwrite, copy) NSString* product;
-@property(readwrite, copy) NSNumber* numberOfStation;
 @property(readwrite, copy) NSString* macAddress;
-@property(readwrite, copy) NSString* swVersion;
 
 
 //GetIP
@@ -114,8 +98,5 @@ typedef enum eRecordType
 
 //get mac address
 - (NSString *) GetMacAddress;
-
-//set version
-- (NSString *) swVersion;
 
 @end

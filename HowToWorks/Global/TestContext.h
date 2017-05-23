@@ -26,7 +26,7 @@
 #define kContextTxtPath             @"TxtLogPath"
 
 #define kContextcheckIfRead         @"IfStartReadData"
-
+#define kContextSFCErrorMsg         @"SFCErrorMsg"
 
 
 #define kContextStartCheckUSBAfterInit      @"AfterInit"

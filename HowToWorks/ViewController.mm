@@ -885,36 +885,43 @@ NSString  *plist_path=@"TestItem";
                 BOOL PF = Gap1PassOrFail&&Gap2PassOrFail&&Gap3PassOrFail&&Gap4PassOrFail&&OHMPassOrFail?YES:NO;
                 
                 NSMutableString *SFCErrorMsg = [[NSMutableString alloc] init];
+                NSMutableString *SFCErrorItem = [[NSMutableString alloc] init];
                 //添加SFC上传的相关信息
                 uploadingSFC.strSN =snArray[0];
                 if (!Gap1PassOrFail)
                 {
-                    [SFCErrorMsg appendString:@"Gap1 Fail"];
+                    [SFCErrorItem appendString:@"Gap1"];
+                    [SFCErrorMsg appendString:@"EA-1"];
                 }
                 if (!Gap2PassOrFail)
                 {
-                    [SFCErrorMsg appendString:@",Gap2 Fail"];
+                    [SFCErrorItem appendString:@",Gap2"];
+                    [SFCErrorMsg appendString:@",EA-2"];
                 }
                 if (!Gap3PassOrFail)
                 {
-                    [SFCErrorMsg appendString:@",Gap3 Fail"];
+                    [SFCErrorItem appendString:@",Gap3"];
+                    [SFCErrorMsg appendString:@",EA-3"];
                 }
                 if (!Gap4PassOrFail)
                 {
-                    [SFCErrorMsg appendString:@",Gap4 Fail"];
+                    [SFCErrorItem appendString:@",Gap4"];
+                    [SFCErrorMsg appendString:@",EA-4"];
                 }
                 if (!OHMPassOrFail)
                 {
-                    [SFCErrorMsg appendString:@",OHM Fail"];
+                    [SFCErrorItem appendString:@",OHM"];
+                    [SFCErrorMsg appendString:@",EA-5"];
                 }
                 if (PF)
                 {
                     
-                    [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:YES andFailMessage:nil];
+                    [uploadingSFC StepSFC_CheckUploadResult:YES andIsTestPass:YES andFailItem:nil andFailMessage:nil];
+                    
                 }
                 else
                 {
-                    [uploadingSFC StepSFC_CheckUploadResult:YES  andIsTestPass:NO andFailMessage:SFCErrorMsg];
+                    [uploadingSFC StepSFC_CheckUploadResult:YES andIsTestPass:NO andFailItem:SFCErrorItem andFailMessage:SFCErrorMsg];
                 }
                 
                 //处理PDCA的相关信息
@@ -1008,19 +1015,11 @@ NSString  *plist_path=@"TestItem";
     switch ([[BYDSFCManager Instance] SFCErrorType])
     {
 
-        case SFC_StayInNextStation:_strErrorMessage=@"测试已经过站";
-            break;
-        case SFC_StayInFrontStation:_strErrorMessage=@"测试前一工站还没测";
-            break;
-        case SFC_OutOfTestCount:_strErrorMessage=@"测试已经超过上传次数";
-            break;
-        case SFC_SN_Error:_strErrorMessage=@"SN错误,此类错误是由于前面站还没测引起的";
-            break;
         case SFC_ErrorNet:_strErrorMessage=@"ErrorNet";
             break;
         case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
             break;
-        case SFC_Exist_Error:_strErrorMessage=@"BDA绑定错误";
+        case SFC_Fail:_strErrorMessage=[ctestcontext->m_dicConfiguration objectForKey:kContextSFCErrorMsg];
             break;
         case SFC_Success:
         {

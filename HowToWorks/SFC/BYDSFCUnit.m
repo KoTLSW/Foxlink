@@ -15,40 +15,25 @@
 @implementation BYDSFCUnit
 
 @synthesize MESServerIP=_MESServerIP;
-@synthesize BDAServerIP=_BDAServerIP;
-@synthesize netPort=_netPort;
-@synthesize username=_username;
-@synthesize password=_password;
-@synthesize site=_site;
-@synthesize operation=_operation;
-@synthesize resource=_resource;
 @synthesize cType=_cType;
 @synthesize stationID=_stationID;
 @synthesize stationName=_stationName;
 @synthesize product=_product;
-@synthesize numberOfStation=_numberOfStation;
 @synthesize macAddress=_macAddress;
-@synthesize swVersion=_swVersion;
 
 
 - (id) init
 {
     if (self = [super init])
     {
-        _MESServerIP=@"10.12.3.217";
-        _BDAServerIP=@"10.12.3.217";
-        _netPort=[[NSNumber alloc] init];
-        _username=[[NSString alloc] init];
-        _site=[[NSNumber alloc] init];
-        _operation=[[NSString alloc] init];
-        _resource=[[NSString alloc] init];
+        _MESServerIP=@"10.1.1.21";
         _cType=[[NSString alloc] init];
         _stationID=[[NSString alloc] init];
         _stationName=[[NSString alloc] init];
         _product=[[NSString alloc]init];
-        _numberOfStation=[[NSNumber alloc] init];
         _macAddress=[[NSString alloc] init];
-        _swVersion=[[NSString alloc] init];
+        
+        
     }
     
     return self;
@@ -59,22 +44,10 @@
 {
     if(_MESServerIP == nil)
     {
-        _MESServerIP = @"10.12.3.217";
+        _MESServerIP = @"10.1.1.21";
     }
     
      return _MESServerIP;
-}
-
-
-//Get net port
--(NSNumber*) GetNetPort
-{
-    if (_netPort == nil)
-    {
-        _netPort = [NSNumber numberWithInteger:50000];
-    }
-    
-    return _netPort;
 }
 
 //get mac address

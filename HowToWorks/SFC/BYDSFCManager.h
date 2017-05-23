@@ -19,22 +19,14 @@ enum eSFC_Check_Type
 {
     e_SN_CHECK,
     e_COMPLETE_RESULT_CHECK,
-    e_BDA_RESULT_CHECK,
-    e_BDA_VERIFY_CHECK,
-    e_BDA_QUERY_CHECK,//给产品分配BDA
 };
 
 //
 enum eSFC_Back_Type
 {
-    SFC_Success,        //
-    SFC_BDA_Not_Regex_SN,
-    SFC_Exist_Error,
-    SFC_OutOfTestCount,//
-    SFC_StayInNextStation,  //
-    SFC_StayInFrontStation,
+    SFC_Success,                //成功
+    SFC_Fail,                   //失败
     SFC_ErrorNet,               //网络错误
-    SFC_SN_Error,               //SN错误
     SFC_TimeOut_Error,          //超时错误
     SFC_Default,
 };
@@ -68,8 +60,9 @@ enum eSFC_Back_Type
               testResult:(NSString *)result
                startTime:(NSString *)tmStartStr
                  endTime:(NSString *)tmEndStr
-               bdaSerial:(NSString*)strbdaSerial
+              faiureItem:(NSString*)failItem
            faiureMessage:(NSString *)failMsg;
+
 /*!
  * @abstract    错误消息
  */
@@ -80,18 +73,6 @@ enum eSFC_Back_Type
  * @param   sn  产品序列号
  */
 - (BOOL) checkSerialNumber:(NSString *)sn;
-
-
-
-
-//查询BDA的方法
--(BOOL)checkQueryBDA:(NSString*)sn;
-
-
-
-//
--(BOOL)checkSNRgexedBDA:(NSString*)sn
-           andBDASerail:(NSString *)bdaSerial;
 
 /*!
  * @abstract    上传最终测试结果至SFC系统
@@ -106,12 +87,9 @@ enum eSFC_Back_Type
                 result:(NSString *)result
              startTime:(time_t)tmStart
                endTime:(time_t)tmEnd
+              failItem:(NSString*)failitem
            failMessage:(NSString *)failMsg;
 
-
-- (BOOL) checkBDASerail:(NSString *)sn
-              BDASerail:(NSString *)bdaSerial
-              startTime:(time_t)tmStart;
 
 @property(readonly, nonatomic) NSString* errorMessage;
 

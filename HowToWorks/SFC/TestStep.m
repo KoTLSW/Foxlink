@@ -94,31 +94,31 @@ static TestStep* test=nil;
         [[BYDSFCManager Instance] setSFCCheckType:e_SN_CHECK];
         [[BYDSFCManager Instance] checkSerialNumber:_strSN];
         
-        switch ([[BYDSFCManager Instance] SFCErrorType])
-        {
-            case SFC_StayInNextStation:_strErrorMessage=@"测试已经过站";
-                break;
-            case SFC_StayInFrontStation:_strErrorMessage=@"测试前一工站还没测";
-                break;
-            case SFC_OutOfTestCount:_strErrorMessage=@"测试已经超过上传次数";
-                break;
-            case SFC_SN_Error:_strErrorMessage=@"SN错误,此类错误是由于前面站还没测引起的";
-                break;
-            case SFC_ErrorNet:_strErrorMessage=@"网络链接错误";
-                break;
-            case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
-                break;
-            case SFC_Exist_Error:_strErrorMessage=@"BDA绑定错误";
-                break;
-            case SFC_Success:
-            {
-                flag=YES;
-            }
-                break;
-            case SFC_Default:
-            default:_strErrorMessage=@"其它错误";
-                break;
-        }
+//        switch ([[BYDSFCManager Instance] SFCErrorType])
+//        {
+//            case SFC_StayInNextStation:_strErrorMessage=@"测试已经过站";
+//                break;
+//            case SFC_StayInFrontStation:_strErrorMessage=@"测试前一工站还没测";
+//                break;
+//            case SFC_OutOfTestCount:_strErrorMessage=@"测试已经超过上传次数";
+//                break;
+//            case SFC_SN_Error:_strErrorMessage=@"SN错误,此类错误是由于前面站还没测引起的";
+//                break;
+//            case SFC_ErrorNet:_strErrorMessage=@"网络链接错误";
+//                break;
+//            case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
+//                break;
+//            case SFC_Exist_Error:_strErrorMessage=@"BDA绑定错误";
+//                break;
+//            case SFC_Success:
+//            {
+//                flag=YES;
+//            }
+//                break;
+//            case SFC_Default:
+//            default:_strErrorMessage=@"其它错误";
+//                break;
+//        }
         
         if(!flag)
         {
@@ -138,7 +138,7 @@ static TestStep* test=nil;
 
 
 //SFC检测上传结果
--(BOOL)StepSFC_CheckUploadResult:(BOOL)isUploadSFC  andIsTestPass:(BOOL)isTestPass andFailMessage:(NSString*)strMessage
+-(BOOL)StepSFC_CheckUploadResult:(BOOL)isUploadSFC  andIsTestPass:(BOOL)isTestPass andFailItem:(NSString*)strFailItem andFailMessage:(NSString*)strMessage
 {
     BOOL flagUploadResult=YES;
 
@@ -152,8 +152,7 @@ static TestStep* test=nil;
             int count= 0;
             do
             {
-                flagUploadResult=[[BYDSFCManager Instance] checkComplete:_strSN result:@"PASS"
-                                        startTime:tmStart endTime:tmStop   failMessage:@""];
+                flagUploadResult=[[BYDSFCManager Instance] checkComplete:_strSN result:@"PASS" startTime:tmStart endTime:tmStop failItem:@"" failMessage:@""];
                 [NSThread sleepForTimeInterval:0.5];
                 count++;
             }
@@ -162,8 +161,7 @@ static TestStep* test=nil;
         }
         else
         {
-            flagUploadResult=[[BYDSFCManager Instance] checkComplete:_strSN result:@"FAIL"
-                            startTime:tmStart endTime:tmStop failMessage:strMessage];
+            flagUploadResult=[[BYDSFCManager Instance] checkComplete:_strSN result:@"FAIL" startTime:tmStart endTime:tmStop failItem:(NSString *)strFailItem failMessage:strMessage];
         }
     }
     
