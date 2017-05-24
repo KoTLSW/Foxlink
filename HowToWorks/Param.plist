@@ -15,17 +15,17 @@
 	<key>thdn</key>
 	<integer>5</integer>
 	<key>ui_title</key>
-	<string>Uploading SFC&amp;PDCA</string>
+	<string>AE-1</string>
 	<key>ui_versiom</key>
-	<string>V1.0.0.2</string>
+	<string>V1.0.2.6</string>
 	<key>station</key>
-	<string>1</string>
+	<string>2</string>
 	<key>stationID</key>
-	<string>123</string>
+	<string>FLDG_FQ3-5FAP-01_2_AE-1</string>
 	<key>fixtureID</key>
-	<string>11111111</string>
+	<string>01</string>
 	<key>lineNO</key>
-	<string>99999</string>
+	<string>01/B443</string>
 	<key>csv_path</key>
 	<string>/vault/Test5</string>
 	<key>txt_path</key>

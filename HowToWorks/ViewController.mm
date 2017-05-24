@@ -81,6 +81,8 @@ NSString  *plist_path=@"TestItem";
     int testtotalcount;
     int testpassrate;
     int testfailrate;
+    
+    NSMutableString *stationidstring;      //StationID
 }
 @end
 //================================================
@@ -111,6 +113,12 @@ NSString  *plist_path=@"TestItem";
 
 - (void)viewDidLoad
 {
+    //获取stationID
+    stationidstring = [[NSMutableString alloc] init];
+    [stationidstring appendString:[self GetStrFromJson:@"SITE"]];
+    [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"LINE_ID"]]];
+    [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_NUMBER"]]];
+    [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_TYPE"]]];
     //用于存windows端发过来的数据
     DataFromWindows = [[NSMutableString alloc] init];
     //SFC返回的字符串
@@ -154,13 +162,13 @@ NSString  *plist_path=@"TestItem";
     //--------------------------
     [TesterVersion setStringValue:param.tester_version];   //设置version
     //--------------------------
-    [Station setStringValue:param.station];   //设置station
+    [Station setStringValue:[self GetStrFromJson:@"STATION_NUMBER"]];   //设置station
     //--------------------------
-    [StationID setStringValue:param.stationID];   //设置stationID
+    [StationID setStringValue:stationidstring];   //设置stationID
     //--------------------------
     [FixtureID setStringValue:param.fixtureID];   //设置fixtureID
     //--------------------------
-    [LineNo setStringValue:param.lineNo];   //设置lineNO
+    [LineNo setStringValue:[self GetStrFromJson:@"LINE_NUMBER"]];   //设置lineNO
     //--------------------------
     [ctestcontext->m_dicConfiguration setObject:param.csv_path forKey:kContextCsvPath];  //把csv路径存到字典里，在perferem类的初始化里需要用到
     [ctestcontext->m_dicConfiguration setObject:param.txt_path forKey:kContextTxtPath];  //把txt路径存到字典里，在perferem类的初始化里可能需要用到
@@ -917,11 +925,38 @@ NSString  *plist_path=@"TestItem";
                 {
                     
                     [uploadingSFC StepSFC_CheckUploadResult:YES andIsTestPass:YES andFailItem:nil andFailMessage:nil];
+                    //处理界面计数
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        testpasscount = testpasscount+1;
+                        testtotalcount = testtotalcount+1;
+                        testpassrate = testpasscount/testtotalcount;
+                        [TestPassCount setStringValue:[NSString stringWithFormat:@"%d",testpasscount]];
+                        [TestTotalCount setStringValue:[NSString stringWithFormat:@"%d",testtotalcount]];
+                        [TestPassRate setStringValue:[NSString stringWithFormat:@"%.2f%%",(double)testpasscount/(double)testtotalcount*100]];
+                        //同事更新fail的统计数据
+                        testfailrate = testfailcount/testtotalcount;
+                        [TestFailCount setStringValue:[NSString stringWithFormat:@"%d",testfailcount]];
+                        [TestFailRate setStringValue:[NSString stringWithFormat:@"%.2f%%",(double)testfailcount/(double)testtotalcount*100]];
+                    });
                     
                 }
                 else
                 {
                     [uploadingSFC StepSFC_CheckUploadResult:YES andIsTestPass:NO andFailItem:SFCErrorItem andFailMessage:SFCErrorMsg];
+                    
+                    //处理界面计数
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        testfailcount = testfailcount+1;
+                        testtotalcount = testtotalcount+1;
+                        testfailrate = testfailcount/testtotalcount;
+                        [TestFailCount setStringValue:[NSString stringWithFormat:@"%d",testfailcount]];
+                        [TestTotalCount setStringValue:[NSString stringWithFormat:@"%d",testtotalcount]];
+                        [TestFailRate setStringValue:[NSString stringWithFormat:@"%.2f%%",(double)testfailcount/(double)testtotalcount*100]];
+                        //同事统计Pass的统计数据
+                        testpassrate = testpasscount/testtotalcount;
+                        [TestPassCount setStringValue:[NSString stringWithFormat:@"%d",testpasscount]];
+                        [TestPassRate setStringValue:[NSString stringWithFormat:@"%.2f%%",(double)testpasscount/(double)testtotalcount*100]];
+                    });
                 }
                 
                 //处理PDCA的相关信息
@@ -1420,6 +1455,27 @@ NSString  *plist_path=@"TestItem";
     
 }
 
+//从Json文件中读取键值
+-(NSString *)GetStrFromJson:(NSString *)Key
+{
+    
+    NSString * str = nil;
+    NSString * ghStationInfoContent = [NSString stringWithContentsOfFile:@"/vault/data_collection/test_station_config/gh_station_info.json"
+                                                                encoding:NSUTF8StringEncoding error:nil];
+    NSData * ghStationInfoData = [ghStationInfoContent dataUsingEncoding:NSUTF8StringEncoding];
+    if (ghStationInfoData)
+    {
+        NSDictionary * ghStationInfo = [NSJSONSerialization JSONObjectWithData:ghStationInfoData
+                                                                       options:0
+                                                                         error:nil];
+        NSDictionary * ghInfo = [ghStationInfo objectForKey:@"ghinfo"];
+        if (ghInfo)
+        {
+            str = [ghInfo objectForKey:Key];
+        }
+    }
+    return str;
+}
 
 
 @end
