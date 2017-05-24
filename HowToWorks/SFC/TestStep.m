@@ -94,31 +94,21 @@ static TestStep* test=nil;
         [[BYDSFCManager Instance] setSFCCheckType:e_SN_CHECK];
         [[BYDSFCManager Instance] checkSerialNumber:_strSN];
         
-//        switch ([[BYDSFCManager Instance] SFCErrorType])
-//        {
-//            case SFC_StayInNextStation:_strErrorMessage=@"测试已经过站";
-//                break;
-//            case SFC_StayInFrontStation:_strErrorMessage=@"测试前一工站还没测";
-//                break;
-//            case SFC_OutOfTestCount:_strErrorMessage=@"测试已经超过上传次数";
-//                break;
-//            case SFC_SN_Error:_strErrorMessage=@"SN错误,此类错误是由于前面站还没测引起的";
-//                break;
-//            case SFC_ErrorNet:_strErrorMessage=@"网络链接错误";
-//                break;
-//            case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
-//                break;
-//            case SFC_Exist_Error:_strErrorMessage=@"BDA绑定错误";
-//                break;
-//            case SFC_Success:
-//            {
-//                flag=YES;
-//            }
-//                break;
-//            case SFC_Default:
-//            default:_strErrorMessage=@"其它错误";
-//                break;
-//        }
+        switch ([[BYDSFCManager Instance] SFCErrorType])
+        {
+            case SFC_ErrorNet:_strErrorMessage=@"网络链接错误";
+                break;
+            case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
+                break;
+            case SFC_Success:
+            {
+                flag=YES;
+            }
+                break;
+            case SFC_Default:
+            default:_strErrorMessage=@"其它错误";
+                break;
+        }
         
         if(!flag)
         {
