@@ -810,7 +810,7 @@ NSString  *plist_path=@"TestItem";
                 index = 1;
                 
                 //清空log显示
-                if ([[LOGVIEW1 string] length]>100000)
+                if ([[LOGVIEW1 string] length]>500000)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSRange range;
