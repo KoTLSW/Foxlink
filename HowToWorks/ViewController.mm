@@ -810,13 +810,13 @@ NSString  *plist_path=@"TestItem";
                 index = 1;
                 
                 //清空log显示
-                if ([[LOGVIEW1 string] length]>10000)
+                if ([[LOGVIEW1 string] length]>100000)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSRange range;
                         range = NSMakeRange(0, [[LOGVIEW1 string] length]);
                         [LOGVIEW1 replaceCharactersInRange:range withString:@""];
-                        NSLog(@"Log字符串超过10000字节，已清掉");
+                        NSLog(@"Log字符串超过100000字节，已清掉");
                     });
                 }
 
@@ -1017,7 +1017,7 @@ NSString  *plist_path=@"TestItem";
 
         case SFC_ErrorNet:_strErrorMessage=@"ErrorNet";
             break;
-        case SFC_TimeOut_Error:_strErrorMessage=@"SFC超时错误";
+        case SFC_TimeOut_Error:_strErrorMessage=@"SFC_Time_Out";
             break;
         case SFC_Fail:_strErrorMessage=[ctestcontext->m_dicConfiguration objectForKey:kContextSFCErrorMsg];
             break;
@@ -1027,7 +1027,7 @@ NSString  *plist_path=@"TestItem";
         }
             break;
         case SFC_Default:
-        default:_strErrorMessage=@"其它错误";
+        default:_strErrorMessage=@"OtherError";
             break;
     }
     return _strErrorMessage;

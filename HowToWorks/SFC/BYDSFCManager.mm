@@ -39,7 +39,7 @@ static BYDSFCManager* bydSFC=nil;
         //获取stationID
         NSMutableString *stationidstring = [[NSMutableString alloc] init];
         [stationidstring appendString:[self GetStrFromJson:@"SITE"]];
-        [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"LOCATION"]]];
+        [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"LINE_ID"]]];
         [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_NUMBER"]]];
         [stationidstring appendString:[NSString stringWithFormat:@"_%@",[self GetStrFromJson:@"STATION_TYPE"]]];
         _unit.stationID=stationidstring;
@@ -193,9 +193,12 @@ static BYDSFCManager* bydSFC=nil;
     else
     {
         _SFCErrorType =SFC_Fail;
-        NSRange RanngeReplace = [backFromHttpStr rangeOfString:@"unit_process_check="];
-        NSString *NgMsg = [backFromHttpStr substringFromIndex:RanngeReplace.location+RanngeReplace.length];
-        [ctestcontext->m_dicConfiguration setValue:NgMsg forKey:kContextSFCErrorMsg];
+        if ([backFromHttpStr containsString:@"unit_process_check"])
+        {
+            NSRange RanngeReplace = [backFromHttpStr rangeOfString:@"unit_process_check="];
+            NSString *NgMsg = [backFromHttpStr substringFromIndex:RanngeReplace.location+RanngeReplace.length];
+            [ctestcontext->m_dicConfiguration setValue:NgMsg forKey:kContextSFCErrorMsg];
+        }
     }
 
     
