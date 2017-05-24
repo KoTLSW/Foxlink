@@ -61,7 +61,7 @@
 	<key>OHMUnit</key>
 	<string>OHM</string>
 	<key>IP_MacWin</key>
-	<string>127.0.0.1</string>
+	<string>169.254.123.100</string>
 	<key>Port_MacWin</key>
 	<string>5000</string>
 </dict>
