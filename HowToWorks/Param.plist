@@ -17,7 +17,7 @@
 	<key>ui_title</key>
 	<string>AE-1</string>
 	<key>ui_versiom</key>
-	<string>V1.0.2.6</string>
+	<string>V1.0.2.9</string>
 	<key>station</key>
 	<string>2</string>
 	<key>stationID</key>
@@ -61,7 +61,7 @@
 	<key>OHMUnit</key>
 	<string>OHM</string>
 	<key>IP_MacWin</key>
-	<string>169.254.123.100</string>
+	<string>127.0.0.1</string>
 	<key>Port_MacWin</key>
 	<string>5000</string>
 </dict>

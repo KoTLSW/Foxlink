@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HowToWorks/ViewController.mm"
-            timestampString = "517307407.726969"
+            filePath = "HowToWorks/SFC/BYDSFCManager.mm"
+            timestampString = "517386957.993149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
-            landmarkName = "-UploadSFC_PDCAData:"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "-handleHttpRequest:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

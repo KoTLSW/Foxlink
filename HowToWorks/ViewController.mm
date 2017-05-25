@@ -885,11 +885,11 @@ NSString  *plist_path=@"TestItem";
             else
             {
                 //判断产品是否Pass
-                BOOL Gap1PassOrFail = ([snArray[2] floatValue]>[param.Gap1LowerLimit floatValue])&&([snArray[2] floatValue]<[param.Gap1UpperLimit floatValue])?YES:NO;
-                BOOL Gap2PassOrFail = ([snArray[3] floatValue]>[param.Gap2LowerLimit floatValue])&&([snArray[3] floatValue]<[param.Gap2UpperLimit floatValue])?YES:NO;
-                BOOL Gap3PassOrFail = ([snArray[4] floatValue]>[param.Gap3LowerLimit floatValue])&&([snArray[4] floatValue]<[param.Gap3UpperLimit floatValue])?YES:NO;
-                BOOL Gap4PassOrFail = ([snArray[5] floatValue]>[param.Gap4LowerLimit floatValue])&&([snArray[5] floatValue]<[param.Gap4UpperLimit floatValue])?YES:NO;
-                BOOL OHMPassOrFail = ([snArray[6] floatValue]>[param.OHMLowerLimit floatValue])&&([snArray[6] floatValue]<[param.OHMUpperLimit floatValue])?YES:NO;
+                BOOL Gap1PassOrFail = ([snArray[2] floatValue]>=[param.Gap1LowerLimit floatValue])&&([snArray[2] floatValue]<=[param.Gap1UpperLimit floatValue])?YES:NO;
+                BOOL Gap2PassOrFail = ([snArray[3] floatValue]>=[param.Gap2LowerLimit floatValue])&&([snArray[3] floatValue]<=[param.Gap2UpperLimit floatValue])?YES:NO;
+                BOOL Gap3PassOrFail = ([snArray[4] floatValue]>=[param.Gap3LowerLimit floatValue])&&([snArray[4] floatValue]<=[param.Gap3UpperLimit floatValue])?YES:NO;
+                BOOL Gap4PassOrFail = ([snArray[5] floatValue]>=[param.Gap4LowerLimit floatValue])&&([snArray[5] floatValue]<=[param.Gap4UpperLimit floatValue])?YES:NO;
+                BOOL OHMPassOrFail = ([snArray[6] floatValue]>=[param.OHMLowerLimit floatValue])&&([snArray[6] floatValue]<=[param.OHMUpperLimit floatValue])?YES:NO;
                 BOOL PF = Gap1PassOrFail&&Gap2PassOrFail&&Gap3PassOrFail&&Gap4PassOrFail&&OHMPassOrFail?YES:NO;
                 
                 NSMutableString *SFCErrorMsg = [[NSMutableString alloc] init];
@@ -903,23 +903,58 @@ NSString  *plist_path=@"TestItem";
                 }
                 if (!Gap2PassOrFail)
                 {
-                    [SFCErrorItem appendString:@",Gap2"];
-                    [SFCErrorMsg appendString:@",EA-2"];
+                    if (SFCErrorItem.length>0)
+                    {
+                        [SFCErrorItem appendString:@",Gap2"];
+                        [SFCErrorMsg appendString:@",EA-2"];
+                    }
+                    else
+                    {
+                        [SFCErrorItem appendString:@"Gap2"];
+                        [SFCErrorMsg appendString:@"EA-2"];
+                    }
+
                 }
                 if (!Gap3PassOrFail)
                 {
-                    [SFCErrorItem appendString:@",Gap3"];
-                    [SFCErrorMsg appendString:@",EA-3"];
+                    if (SFCErrorItem.length>0)
+                    {
+                        [SFCErrorItem appendString:@",Gap3"];
+                        [SFCErrorMsg appendString:@",EA-3"];
+                    }
+                    else
+                    {
+                        [SFCErrorItem appendString:@"Gap3"];
+                        [SFCErrorMsg appendString:@"EA-3"];
+                    }
+
                 }
                 if (!Gap4PassOrFail)
                 {
-                    [SFCErrorItem appendString:@",Gap4"];
-                    [SFCErrorMsg appendString:@",EA-4"];
+                    if (SFCErrorItem.length>0)
+                    {
+                        [SFCErrorItem appendString:@",Gap4"];
+                        [SFCErrorMsg appendString:@",EA-4"];
+                    }
+                    else
+                    {
+                        [SFCErrorItem appendString:@"Gap4"];
+                        [SFCErrorMsg appendString:@"EA-4"];
+                    }
                 }
                 if (!OHMPassOrFail)
                 {
-                    [SFCErrorItem appendString:@",OHM"];
-                    [SFCErrorMsg appendString:@",EA-5"];
+                    if (SFCErrorItem.length>0)
+                    {
+                        [SFCErrorItem appendString:@",OHM"];
+                        [SFCErrorMsg appendString:@",EA-5"];
+                    }
+                    else
+                    {
+                        [SFCErrorItem appendString:@"OHM"];
+                        [SFCErrorMsg appendString:@"EA-5"];
+                    }
+
                 }
                 if (PF)
                 {

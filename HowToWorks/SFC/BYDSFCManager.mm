@@ -88,10 +88,6 @@ static BYDSFCManager* bydSFC=nil;
             [urlString appendFormat:@"%@=%@",SFC_TEST_P_TYPE,@"unit_process_check"];
         }
             break;
-
-            //http:
-            //192.168.229.253/Foxlink/?result=PASS&c=ADD_RECORD&sn=FL471850002HXNV1Q&product=B443&test_station_name=SMT-DEVELOPMENT6&station_id=FLDG_FQ3-5FAP-01_2_SMT-DEVELOPMENT6&mac_address=40:6c:8f:32:b3:cc&start_time=2017-04-1010:27:59&stop_time=2017-04-1010:28:41
- 
         case  e_COMPLETE_RESULT_CHECK:
         {
             [urlString appendFormat:@"%@=%@&",SFC_TEST_RESULT,result];
@@ -181,23 +177,42 @@ static BYDSFCManager* bydSFC=nil;
     NSLog(@"HttpBackValue:%@",backFromHttpStr);
     
     NSMutableString* strLogFile=[[NSMutableString alloc] initWithFormat:@"HttpBackValue:%@\r\n",backFromHttpStr];
-
-    if ([backFromHttpStr length]<1)
+    if (_SFCCheckType==e_COMPLETE_RESULT_CHECK)
     {
-        _SFCErrorType=SFC_ErrorNet;
-    }
-    else if([backFromHttpStr containsString:@"unit_process_check=OK"])
-    {
-        _SFCErrorType=SFC_Success;
+        if ([backFromHttpStr length]<1)
+        {
+            _SFCErrorType=SFC_ErrorNet;
+        }
+        else if([backFromHttpStr containsString:@"SFC_OK"])
+        {
+            _SFCErrorType=SFC_Success;
+        }
+        else
+        {
+            _SFCErrorType=SFC_Fail;
+            [ctestcontext->m_dicConfiguration setValue:@"Upload SFC Data ERROR" forKey:kContextSFCErrorMsg];
+            NSLog(@"Upload SFC Data ERROR");
+        }
     }
     else
     {
-        _SFCErrorType =SFC_Fail;
-        if ([backFromHttpStr containsString:@"unit_process_check"])
+        if ([backFromHttpStr length]<1)
         {
-            NSRange RanngeReplace = [backFromHttpStr rangeOfString:@"unit_process_check="];
-            NSString *NgMsg = [backFromHttpStr substringFromIndex:RanngeReplace.location+RanngeReplace.length];
-            [ctestcontext->m_dicConfiguration setValue:NgMsg forKey:kContextSFCErrorMsg];
+            _SFCErrorType=SFC_ErrorNet;
+        }
+        else if([backFromHttpStr containsString:@"unit_process_check=OK"])
+        {
+            _SFCErrorType=SFC_Success;
+        }
+        else
+        {
+            _SFCErrorType =SFC_Fail;
+            if ([backFromHttpStr containsString:@"unit_process_check"])
+            {
+                NSRange RanngeReplace = [backFromHttpStr rangeOfString:@"unit_process_check="];
+                NSString *NgMsg = [backFromHttpStr substringFromIndex:RanngeReplace.location+RanngeReplace.length];
+                [ctestcontext->m_dicConfiguration setValue:NgMsg forKey:kContextSFCErrorMsg];
+            }
         }
     }
 
