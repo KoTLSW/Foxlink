@@ -1509,6 +1509,10 @@ NSString  *plist_path=@"TestItem";
             str = [ghInfo objectForKey:Key];
         }
     }
+    else
+    {
+        NSRunAlertPanel(@"Load file fail", @"please check the file --> /vault/data_collection/test_station_config/gh_station_info.json", @"OK", nil, nil);
+    }
     return str;
 }
 
