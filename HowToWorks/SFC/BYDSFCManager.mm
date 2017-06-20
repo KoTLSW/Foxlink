@@ -176,7 +176,7 @@ static BYDSFCManager* bydSFC=nil;
     NSString* backFromHttpStr = [[NSString alloc] initWithData:byteRequest encoding:NSUTF8StringEncoding];
     NSLog(@"HttpBackValue:%@",backFromHttpStr);
     
-    NSMutableString* strLogFile=[[NSMutableString alloc] initWithFormat:@"HttpBackValue:%@\r\n",backFromHttpStr];
+//    NSMutableString* strLogFile=[[NSMutableString alloc] initWithFormat:@"HttpBackValue:%@\r\n",backFromHttpStr];
     if (_SFCCheckType==e_COMPLETE_RESULT_CHECK)
     {
         if ([backFromHttpStr length]<1)
