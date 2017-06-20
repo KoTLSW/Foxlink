@@ -644,6 +644,7 @@ NSString  *plist_path=@"TestItem";
                             [SFC1 setStringValue:@"NULL"];
                             [SFC1 setBackgroundColor:[NSColor blueColor]];
                         });
+                        [SFCBackString appendString:[NSString stringWithFormat:@"SFC:%@,NG,NULL:",dutsn1]];
                     }
                     else
                     {
@@ -679,6 +680,7 @@ NSString  *plist_path=@"TestItem";
                             [SFC2 setStringValue:@"NULL"];
                             [SFC2 setBackgroundColor:[NSColor blueColor]];
                         });
+                        [SFCBackString appendString:[NSString stringWithFormat:@"%@,NG,NULL:",dutsn2]];
                     }
                     else
                     {
@@ -712,6 +714,7 @@ NSString  *plist_path=@"TestItem";
                             [SFC3 setStringValue:@"NULL"];
                             [SFC3 setBackgroundColor:[NSColor blueColor]];
                         });
+                        [SFCBackString appendString:[NSString stringWithFormat:@"%@,NG,NULL:",dutsn3]];
                     }
                     else
                     {
@@ -746,6 +749,7 @@ NSString  *plist_path=@"TestItem";
                             [SFC4 setStringValue:@"NULL"];
                             [SFC4 setBackgroundColor:[NSColor blueColor]];
                         });
+                        [SFCBackString appendString:[NSString stringWithFormat:@"%@,NG,NULL:#",dutsn4]];
                     }
                     else
                     {
