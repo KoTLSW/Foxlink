@@ -17,7 +17,7 @@
 	<key>ui_title</key>
 	<string>AE-1</string>
 	<key>ui_versiom</key>
-	<string>V1.0.3.1</string>
+	<string>V1.0.3.2</string>
 	<key>station</key>
 	<string>2</string>
 	<key>stationID</key>
@@ -35,25 +35,25 @@
 	<key>Gap1LowerLimit</key>
 	<string>0</string>
 	<key>Gap1Unit</key>
-	<string>Gap</string>
+	<string>mm</string>
 	<key>Gap2UpperLimit</key>
 	<string>0.25</string>
 	<key>Gap2LowerLimit</key>
 	<string>0</string>
 	<key>Gap2Unit</key>
-	<string>Gap</string>
+	<string>mm</string>
 	<key>Gap3UpperLimit</key>
 	<string>0.25</string>
 	<key>Gap3LowerLimit</key>
 	<string>0</string>
 	<key>Gap3Unit</key>
-	<string>Gap</string>
+	<string>mm</string>
 	<key>Gap4UpperLimit</key>
 	<string>0.25</string>
 	<key>Gap4LowerLimit</key>
 	<string>0</string>
 	<key>Gap4Unit</key>
-	<string>Gap</string>
+	<string>mm</string>
 	<key>OHMUpperLimit</key>
 	<string>10</string>
 	<key>OHMLowerLimit</key>
